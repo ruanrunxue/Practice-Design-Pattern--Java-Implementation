@@ -20,4 +20,7 @@ public interface Table<PrimaryKey, Record> {
 
     // 删除表记录
     void delete(PrimaryKey key);
+
+    // 返回表记录迭代器
+    TableIterator<Record> iterator();
 }

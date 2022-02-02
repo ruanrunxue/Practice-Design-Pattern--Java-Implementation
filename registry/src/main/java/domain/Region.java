@@ -1,7 +1,7 @@
 package domain;
 
 // Region值对象，每个服务都唯一属于一个Region
-public class Region {
+public class Region implements Comparable<Region> {
     // Region Id，唯一标识一个Region
     private final int id;
     // Region Name
@@ -37,5 +37,10 @@ public class Region {
     public Region withCountry(String country) {
         this.country = country;
         return this;
+    }
+
+    @Override
+    public int compareTo(Region other) {
+        return this.id - other.id;
     }
 }

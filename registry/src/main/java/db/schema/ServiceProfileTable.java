@@ -1,24 +1,28 @@
 package db.schema;
 
 import db.Table;
+import db.TableIterator;
 import db.exception.RecordAlreadyExistException;
 import db.exception.RecordNotFoundException;
+import db.iterator.SortedIterator;
 import domain.ServiceProfile;
 import domain.ServiceStatus;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 // Service Profile 表定义，主键为Service Id
 public class ServiceProfileTable implements Table<String, ServiceProfile> {
     private final String name;
     // 使用HashMap存储表记录，key为ServiceProfile.id, value为ServiceProfile.Record
-    private final Map<String, Record> profiles;
+    private final Map<String, Record> records;
 
     private ServiceProfileTable(String name) {
         this.name = name;
-        this.profiles = new HashMap<>();
+        this.records = new HashMap<>();
     }
 
     public static ServiceProfileTable of(String name) {
@@ -32,38 +36,49 @@ public class ServiceProfileTable implements Table<String, ServiceProfile> {
 
     @Override
     public Optional<ServiceProfile> query(String serviceId) {
-        if (!profiles.containsKey(serviceId)) {
+        if (!records.containsKey(serviceId)) {
             return Optional.empty();
         }
-        Record record = profiles.get(serviceId);
+        Record record = records.get(serviceId);
         return Optional.of(record.toServiceProfile());
     }
 
     // 插入表记录
     @Override
     public void insert(String serviceId, ServiceProfile profile) {
-        if (profiles.containsKey(serviceId)) {
+        if (records.containsKey(serviceId)) {
             throw new RecordAlreadyExistException(serviceId);
         }
-        profiles.put(serviceId, Record.from(profile));
+        records.put(serviceId, Record.from(profile));
     }
 
     // 更新表记录，newRecord为新的记录
     @Override
     public void update(String serviceId, ServiceProfile newProfile) {
-        if (!profiles.containsKey(serviceId)) {
+        if (!records.containsKey(serviceId)) {
             throw new RecordNotFoundException(serviceId);
         }
-        profiles.replace(serviceId, Record.from(newProfile));
+        records.replace(serviceId, Record.from(newProfile));
     }
 
     // 删除表记录
+    @Override
     public void delete(String serviceId) {
-        if (!profiles.containsKey(serviceId)) {
+        if (!records.containsKey(serviceId)) {
             throw new RecordNotFoundException(serviceId);
         }
-        profiles.remove(serviceId);
+        records.remove(serviceId);
     }
+
+    @Override
+    public TableIterator<ServiceProfile> iterator() {
+        List<ServiceProfile> profiles = records.values()
+                .stream()
+                .map(Record::toServiceProfile)
+                .collect(Collectors.toList());
+        return new SortedIterator<>(profiles);
+    }
+
 
     // 表结构定义
     private static class Record {

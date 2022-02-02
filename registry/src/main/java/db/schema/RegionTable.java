@@ -1,13 +1,17 @@
 package db.schema;
 
 import db.Table;
+import db.TableIterator;
 import db.exception.RecordAlreadyExistException;
 import db.exception.RecordNotFoundException;
+import db.iterator.SortedIterator;
 import domain.Region;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * 享元模式
@@ -24,11 +28,11 @@ import java.util.Optional;
 public class RegionTable implements Table<Integer, Region> {
     private final String name;
     // 使用HashMap存储表记录，key为Region.Id, value为RegionTable.Record
-    private final Map<Integer, RegionTable.Record> regions;
+    private final Map<Integer, Record> records;
 
     private RegionTable(String name) {
         this.name = name;
-        this.regions = new HashMap<>();
+        this.records = new HashMap<>();
     }
 
     public static RegionTable of(String name) {
@@ -42,37 +46,47 @@ public class RegionTable implements Table<Integer, Region> {
 
     @Override
     public Optional<Region> query(Integer regionId) {
-        if (!regions.containsKey(regionId)) {
+        if (!records.containsKey(regionId)) {
             return Optional.empty();
         }
-        RegionTable.Record record = regions.get(regionId);
+        RegionTable.Record record = records.get(regionId);
         return Optional.of(record.toRegion());
     }
 
     // 插入表记录
     @Override
     public void insert(Integer regionId, Region region) {
-        if (regions.containsKey(regionId)) {
+        if (records.containsKey(regionId)) {
             throw new RecordAlreadyExistException(regionId.toString());
         }
-        regions.put(regionId, Record.from(region));
+        records.put(regionId, Record.from(region));
     }
 
     // 更新表记录，newRecord为新的记录
     @Override
     public void update(Integer regionId, Region newRegion) {
-        if (!regions.containsKey(regionId)) {
+        if (!records.containsKey(regionId)) {
             throw new RecordNotFoundException(regionId.toString());
         }
-        regions.replace(regionId, Record.from(newRegion));
+        records.replace(regionId, Record.from(newRegion));
     }
 
     // 删除表记录
+    @Override
     public void delete(Integer regionId) {
-        if (!regions.containsKey(regionId)) {
+        if (!records.containsKey(regionId)) {
             throw new RecordNotFoundException(regionId.toString());
         }
-        regions.remove(regionId);
+        records.remove(regionId);
+    }
+
+    @Override
+    public TableIterator<Region> iterator() {
+        List<Region> regions = records.values()
+                .stream()
+                .map(Record::toRegion)
+                .collect(Collectors.toList());
+        return new SortedIterator<>(regions);
     }
 
     // 享元模式 关键点1：根据业务的上下文，定义享元对象，其他对象通过regionId共享RegionTable.Record

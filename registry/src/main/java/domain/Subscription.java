@@ -8,7 +8,7 @@ import java.util.UUID;
 // 2、按服务类型订阅，当对应类型当服务状态发生变更时（目标服务可以有多个），通知订阅服务
 // 3、如果targetServiceId和targetServiceType同时存在时，按照服务ID订阅
 // 4、如果targetServiceId和targetServiceType都不存在时，为无效订阅
-public class Subscription {
+public class Subscription implements Comparable<Subscription> {
     // 订阅记录ID，全局唯一标识一条订阅记录
     private final String id;
     private String srcServiceId;
@@ -56,5 +56,10 @@ public class Subscription {
     public Subscription withTargetServiceType(String serviceType) {
         targetServiceType = serviceType;
         return this;
+    }
+
+    @Override
+    public int compareTo(Subscription other) {
+        return this.id.compareTo(other.id);
     }
 }
