@@ -1,7 +1,5 @@
 package domain;
 
-import java.util.UUID;
-
 /**
  * 建造者模式
  * 建造者模式适用于对象成员较多，创建对象逻辑较为繁琐的场景，主要都优点有如下2个：
@@ -18,10 +16,10 @@ import java.util.UUID;
  * 8、目标对象定义Builder静态工厂方法，返回Builder实例，通过Builder实例进行对象的创建
  */
 
-// 服务档案
+// 服务档案，其中服务ID唯一标识一个服务实例，一种服务类型可以有多个服务实例
 public class ServiceProfile implements Prototype<ServiceProfile> {
     private final String id;
-    private String name;
+    private String type;
     private ServiceStatus status;
     private Endpoint endpoint;
     private Region region;
@@ -42,8 +40,8 @@ public class ServiceProfile implements Prototype<ServiceProfile> {
         return id;
     }
 
-    public String name() {
-        return name;
+    public String type() {
+        return type;
     }
 
     public ServiceStatus status() {
@@ -70,7 +68,7 @@ public class ServiceProfile implements Prototype<ServiceProfile> {
     @Override
     public ServiceProfile clone() {
         ServiceProfile newProfile = new ServiceProfile(this.id);
-        newProfile.name = this.name;
+        newProfile.type = this.type;
         newProfile.endpoint = this.endpoint;
         newProfile.region = this.region;
         newProfile.priority = this.priority;
@@ -89,8 +87,8 @@ public class ServiceProfile implements Prototype<ServiceProfile> {
         }
 
         // 建造者模式 关键点4：在Builder类中定义目标对象的成员属性设置方法
-        public Builder withName(String name) {
-            profile.name = name;
+        public Builder withType(String type) {
+            profile.type = type;
             // 关键点5：在成员属性设置方法中返回Builder的this指针，支持链式调用
             return this;
         }
@@ -111,7 +109,7 @@ public class ServiceProfile implements Prototype<ServiceProfile> {
         }
 
         public Builder withRegion(int regionId, String regionName, String country) {
-            profile.region = Region.of(regionId, regionName, country);
+            profile.region = Region.of(regionId).withName(regionName).withCountry(country);
             return this;
         }
 

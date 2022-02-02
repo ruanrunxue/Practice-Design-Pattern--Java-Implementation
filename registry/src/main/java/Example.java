@@ -1,5 +1,5 @@
 import db.MemoryDb;
-import db.schma.ServiceProfileTable;
+import db.schema.ServiceProfileTable;
 
 public class Example {
     public static void main(String[] args) {

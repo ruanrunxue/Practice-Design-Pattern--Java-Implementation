@@ -1,4 +1,4 @@
-package db.schma;
+package db.schema;
 
 import db.Table;
 import db.exception.RecordAlreadyExistException;
@@ -23,7 +23,7 @@ import java.util.Optional;
 // Region表定义
 public class RegionTable implements Table<Integer, Region> {
     private final String name;
-    // 使用HashMap存储表记录，key为ServiceProfile.id, value为Record
+    // 使用HashMap存储表记录，key为Region.Id, value为RegionTable.Record
     private final Map<Integer, RegionTable.Record> regions;
 
     private RegionTable(String name) {
@@ -78,6 +78,7 @@ public class RegionTable implements Table<Integer, Region> {
     // 享元模式 关键点1：根据业务的上下文，定义享元对象，其他对象通过regionId共享RegionTable.Record
     // Region表结构定义，为享元对象，由ServiceProfileTable.Record通过regionId共享
     private static class Record {
+        @PrimaryKey(fieldName = "regionId")
         private int regionId;
         private String regionName;
         private String regionCountry;
@@ -93,7 +94,7 @@ public class RegionTable implements Table<Integer, Region> {
         }
 
         public Region toRegion() {
-            return Region.of(regionId, regionName, regionCountry);
+            return Region.of(regionId).withName(regionName).withCountry(regionCountry);
         }
     }
 

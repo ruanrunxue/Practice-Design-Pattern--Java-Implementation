@@ -9,18 +9,12 @@ public class Region {
     // Region所属国家
     private String country;
 
-    private Region(int id, String name, String country) {
+    private Region(int id) {
         this.id = id;
-        this.name = name;
-        this.country = country;
     }
 
     public static Region of(int id) {
-        return new Region(id, "", "");
-    }
-
-    public static Region of(int id, String name, String country) {
-        return new Region(id, name, country);
+        return new Region(id);
     }
 
     public int id() {
@@ -31,15 +25,17 @@ public class Region {
         return name;
     }
 
-    public void setName(String name) {
+    public Region withName(String name) {
         this.name = name;
+        return this;
     }
 
     public String country() {
         return country;
     }
 
-    public void setCountry(String country) {
+    public Region withCountry(String country) {
         this.country = country;
+        return this;
     }
 }
