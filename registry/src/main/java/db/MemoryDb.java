@@ -23,7 +23,7 @@ public class MemoryDb {
     // 关键点1：定义全局唯一的实例，系统初始化时就已经完成实例化
     private static final MemoryDb INSTANCE = new MemoryDb();
 
-    private final Map<String, Table<?,?>> tables;
+    private final Map<String, Table<?, ?>> tables;
 
     // 关键点2：私有构造函数，防止使用者实例化
     private MemoryDb() {
@@ -36,7 +36,7 @@ public class MemoryDb {
     }
 
     // 查找表，如果表不存在，则抛出TableNotFoundException
-    public Table<?,?> tableOf(String tableName) {
+    public Table<?, ?> tableOf(String tableName) {
         if (!tables.containsKey(tableName)) {
             throw new TableNotFoundException(tableName);
         }
@@ -44,7 +44,7 @@ public class MemoryDb {
     }
 
     // 创建表，如果表名已经创建，则抛出TableAlreadyExistException
-    public void createTable(Table<?,?> table) {
+    public void createTable(Table<?, ?> table) {
         if (tables.containsKey(table.name())) {
             throw new TableAlreadyExistException(table.name());
         }
@@ -57,6 +57,11 @@ public class MemoryDb {
             throw new TableNotFoundException(tableName);
         }
         tables.remove(tableName);
+    }
+
+    // 删除所有表
+    public void clear() {
+        tables.clear();
     }
 
 }
