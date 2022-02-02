@@ -19,7 +19,7 @@ import java.util.UUID;
  */
 
 // 服务档案
-public class ServiceProfile {
+public class ServiceProfile implements Prototype<ServiceProfile> {
     private final UUID id;
     private String name;
     private ServiceStatus status;
@@ -28,12 +28,12 @@ public class ServiceProfile {
     private int priority; // 服务优先级，范围0～100，值越低，优先级越高
     private int load; // 服务负载，负载越高标识服务处理的业务压力越大
 
-    // 关键点7：目标对象定义私有构造函数，防止使用者直接实例化对象
+    // 建造者模式关 键点7：目标对象定义私有构造函数，防止使用者直接实例化对象
     private ServiceProfile(UUID id) {
         this.id = id;
     }
 
-    // 关键点8：目标对象定义Builder静态工厂方法，返回Builder实例，通过Builder实例进行对象的创建
+    // 建造者模式 关键点8：目标对象定义Builder静态工厂方法，返回Builder实例，通过Builder实例进行对象的创建
     public static Builder Builder(UUID id) {
         return new Builder(id);
     }
@@ -62,17 +62,29 @@ public class ServiceProfile {
         return load;
     }
 
-    // 关键点1：在目标对象内创建一个静态内部Builder类
+    // 原型模式 关键点2：clone方法中实现对象复制逻辑
+    @Override
+    public ServiceProfile clone() {
+        ServiceProfile newProfile = new ServiceProfile(this.id);
+        newProfile.name = this.name;
+        newProfile.endpoint = this.endpoint;
+        newProfile.region = this.region;
+        newProfile.priority = this.priority;
+        newProfile.load = this.load;
+        return newProfile;
+    }
+
+    // 建造者模式 关键点1：在目标对象内创建一个静态内部Builder类
     public static class Builder {
-        //  关键点2：Builder持有需要创建的目标对象作为成员属性
+        // 建造者模式 关键点2：Builder持有需要创建的目标对象作为成员属性
         private final ServiceProfile profile;
 
-        // 关键点3：定义Builder私有构造函数，在构造函数中实例化目标对象
+        // 建造者模式 关键点3：定义Builder私有构造函数，在构造函数中实例化目标对象
         private Builder(UUID id) {
             profile = new ServiceProfile(id);
         }
 
-        // 关键点4：在Builder类中定义目标对象的成员属性设置方法
+        // 建造者模式 关键点4：在Builder类中定义目标对象的成员属性设置方法
         public Builder withName(String name) {
             profile.name = name;
             // 关键点5：在成员属性设置方法中返回Builder的this指针，支持链式调用
@@ -104,7 +116,7 @@ public class ServiceProfile {
             return this;
         }
 
-        // 关键点6：为Builder类定义Build方法，返回目标对象实例
+        // 建造者模式 关键点6：为Builder类定义Build方法，返回目标对象实例
         public ServiceProfile Build() {
             return profile;
         }
