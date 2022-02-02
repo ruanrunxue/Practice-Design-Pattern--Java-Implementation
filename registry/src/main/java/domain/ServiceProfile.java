@@ -20,7 +20,7 @@ import java.util.UUID;
 
 // 服务档案
 public class ServiceProfile implements Prototype<ServiceProfile> {
-    private final UUID id;
+    private final String id;
     private String name;
     private ServiceStatus status;
     private Endpoint endpoint;
@@ -29,17 +29,21 @@ public class ServiceProfile implements Prototype<ServiceProfile> {
     private int load; // 服务负载，负载越高标识服务处理的业务压力越大
 
     // 建造者模式关 键点7：目标对象定义私有构造函数，防止使用者直接实例化对象
-    private ServiceProfile(UUID id) {
+    private ServiceProfile(String id) {
         this.id = id;
     }
 
     // 建造者模式 关键点8：目标对象定义Builder静态工厂方法，返回Builder实例，通过Builder实例进行对象的创建
-    public static Builder Builder(UUID id) {
-        return new Builder(id);
+    public static Builder Builder(String serviceId) {
+        return new Builder(serviceId);
     }
 
-    public UUID id() {
+    public String id() {
         return id;
+    }
+
+    public String name() {
+        return name;
     }
 
     public ServiceStatus status() {
@@ -80,7 +84,7 @@ public class ServiceProfile implements Prototype<ServiceProfile> {
         private final ServiceProfile profile;
 
         // 建造者模式 关键点3：定义Builder私有构造函数，在构造函数中实例化目标对象
-        private Builder(UUID id) {
+        private Builder(String id) {
             profile = new ServiceProfile(id);
         }
 
@@ -101,8 +105,13 @@ public class ServiceProfile implements Prototype<ServiceProfile> {
             return this;
         }
 
-        public Builder withRegion(String regionName, String country) {
-            profile.region = Region.of(regionName, country);
+        public Builder withRegionId(int regionId) {
+            profile.region = Region.of(regionId);
+            return this;
+        }
+
+        public Builder withRegion(int regionId, String regionName, String country) {
+            profile.region = Region.of(regionId, regionName, country);
             return this;
         }
 

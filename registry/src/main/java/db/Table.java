@@ -1,6 +1,6 @@
 package db;
 
-import java.util.List;
+import java.util.Optional;
 
 // 数据表接口定义，创建的数据表需要实现该接口
 // PrimaryKey: 主键类型
@@ -10,7 +10,7 @@ public interface Table<PrimaryKey, Record> {
     String name();
 
     // 根据主键key查询表记录
-    Record query(PrimaryKey key);
+    Optional<Record> query(PrimaryKey key);
 
     // 插入表记录
     void insert(PrimaryKey key, Record record);

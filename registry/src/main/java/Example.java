@@ -1,15 +1,11 @@
 import db.MemoryDb;
-import db.Table;
-import db.schma.ProfileTable;
-import domain.ServiceProfile;
-
-import java.util.UUID;
+import db.schma.ServiceProfileTable;
 
 public class Example {
     public static void main(String[] args) {
-        ProfileTable table = ProfileTable.empty();
+        ServiceProfileTable table = ServiceProfileTable.of("ProfileTable");
         MemoryDb.instance().createTable(table);
-        ProfileTable pTable = (ProfileTable) MemoryDb.instance().tableOf("ProfileTable");
-        System.out.println(pTable.name());
+        ServiceProfileTable pTable = (ServiceProfileTable) MemoryDb.instance().tableOf("ProfileTable");
+        System.out.println(pTable);
     }
 }
