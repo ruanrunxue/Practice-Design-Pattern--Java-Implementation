@@ -1,10 +1,15 @@
 package db;
 
+import db.dsl.CompoundExpression;
+import db.dsl.Context;
+import db.dsl.Result;
 import db.exception.TableAlreadyExistException;
 import db.exception.TableNotFoundException;
 
+import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * 单例模式
@@ -37,26 +42,26 @@ public class MemoryDb {
 
     // 查找表，如果表不存在，则抛出TableNotFoundException
     public Table<?, ?> tableOf(String tableName) {
-        if (!tables.containsKey(tableName)) {
-            throw new TableNotFoundException(tableName);
+        if (!tables.containsKey(tableName.toLowerCase())) {
+            throw new TableNotFoundException(tableName.toLowerCase());
         }
-        return tables.get(tableName);
+        return tables.get(tableName.toLowerCase());
     }
 
     // 创建表，如果表名已经创建，则抛出TableAlreadyExistException
     public void createTable(Table<?, ?> table) {
-        if (tables.containsKey(table.name())) {
-            throw new TableAlreadyExistException(table.name());
+        if (tables.containsKey(table.name().toLowerCase())) {
+            throw new TableAlreadyExistException(table.name().toLowerCase());
         }
-        tables.put(table.name(), table);
+        tables.put(table.name().toLowerCase(), table);
     }
 
     // 删除表，如果表不存在，则抛出TableNotFoundException
     public void deleteTable(String tableName) {
-        if (!tables.containsKey(tableName)) {
-            throw new TableNotFoundException(tableName);
+        if (!tables.containsKey(tableName.toLowerCase())) {
+            throw new TableNotFoundException(tableName.toLowerCase());
         }
-        tables.remove(tableName);
+        tables.remove(tableName.toLowerCase());
     }
 
     // 删除所有表
@@ -64,4 +69,32 @@ public class MemoryDb {
         tables.clear();
     }
 
+    // 执行DSL语句，当前只支持select查询
+    // 例子：select regionId from regionTable where regionId=1
+    public Result exec(String dslExpression) {
+        Context context = Context.create();
+        CompoundExpression.of(dslExpression).interpret(context);
+
+        Table table = tableOf(context.tableName());
+        Optional record = table.query(context.primaryKeyValue());
+        if (!record.isPresent()) {
+            return Result.empty();
+        }
+        Result result = Result.empty();
+        // 值返回需要的字段
+        for (String column : context.columns()) {
+            try {
+                Object r = record.get();
+                // 通过反射getDeclaredField方法获取私有字段
+                Field field = r.getClass().getDeclaredField(column);
+                // 必须设置为true才能得到字段值
+                field.setAccessible(true);
+                Object value = field.get(r);
+                result.add(column, value.toString());
+            } catch (Exception e) {
+                result.add(column, "NA");
+            }
+        }
+        return result;
+    }
 }

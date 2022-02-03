@@ -108,12 +108,12 @@ public class ServiceProfile implements Prototype<ServiceProfile>, Comparable<Ser
             return this;
         }
 
-        public Builder withRegionId(int regionId) {
+        public Builder withRegionId(String regionId) {
             profile.region = Region.of(regionId);
             return this;
         }
 
-        public Builder withRegion(int regionId, String regionName, String country) {
+        public Builder withRegion(String regionId, String regionName, String country) {
             profile.region = Region.of(regionId).withName(regionName).withCountry(country);
             return this;
         }

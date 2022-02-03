@@ -6,7 +6,6 @@ import db.TableVisitor;
 import db.exception.RecordAlreadyExistException;
 import db.exception.RecordNotFoundException;
 import db.iterator.SortedIterator;
-import domain.Region;
 import domain.ServiceProfile;
 import domain.ServiceStatus;
 
@@ -96,7 +95,7 @@ public class ServiceProfileTable implements Table<String, ServiceProfile> {
         private String ip;
         private int port;
         // 享元模式 关键点2：通过regionId共享享元对象
-        private int regionId;
+        private String regionId;
         private int priority;
         private int load;
 

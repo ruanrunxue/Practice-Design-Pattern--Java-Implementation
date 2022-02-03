@@ -1,4 +1,5 @@
 import db.MemoryDb;
+import db.Table;
 import db.schema.ServiceProfileTable;
 
 public class Example {

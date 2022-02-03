@@ -26,10 +26,10 @@ import java.util.stream.Collectors;
  */
 
 // Region表定义
-public class RegionTable implements Table<Integer, Region> {
+public class RegionTable implements Table<String, Region> {
     private final String name;
     // 使用HashMap存储表记录，key为Region.Id, value为RegionTable.Record
-    private final Map<Integer, Record> records;
+    private final Map<String, Record> records;
 
     private RegionTable(String name) {
         this.name = name;
@@ -46,7 +46,7 @@ public class RegionTable implements Table<Integer, Region> {
     }
 
     @Override
-    public Optional<Region> query(Integer regionId) {
+    public Optional<Region> query(String regionId) {
         if (!records.containsKey(regionId)) {
             return Optional.empty();
         }
@@ -56,27 +56,27 @@ public class RegionTable implements Table<Integer, Region> {
 
     // 插入表记录
     @Override
-    public void insert(Integer regionId, Region region) {
+    public void insert(String regionId, Region region) {
         if (records.containsKey(regionId)) {
-            throw new RecordAlreadyExistException(regionId.toString());
+            throw new RecordAlreadyExistException(regionId);
         }
         records.put(regionId, Record.from(region));
     }
 
     // 更新表记录，newRecord为新的记录
     @Override
-    public void update(Integer regionId, Region newRegion) {
+    public void update(String regionId, Region newRegion) {
         if (!records.containsKey(regionId)) {
-            throw new RecordNotFoundException(regionId.toString());
+            throw new RecordNotFoundException(regionId);
         }
         records.replace(regionId, Record.from(newRegion));
     }
 
     // 删除表记录
     @Override
-    public void delete(Integer regionId) {
+    public void delete(String regionId) {
         if (!records.containsKey(regionId)) {
-            throw new RecordNotFoundException(regionId.toString());
+            throw new RecordNotFoundException(regionId);
         }
         records.remove(regionId);
     }
@@ -99,7 +99,7 @@ public class RegionTable implements Table<Integer, Region> {
     // Region表结构定义，为享元对象，由ServiceProfileTable.Record通过regionId共享
     private static class Record {
         @PrimaryKey(fieldName = "regionId")
-        private int regionId;
+        private String regionId;
         private String regionName;
         private String regionCountry;
 

@@ -1,6 +1,5 @@
 package domain;
 
-import java.util.Random;
 import java.util.UUID;
 
 // 订阅记录对象，记录服务之间的订阅信息，订阅方式支持以下2种：
