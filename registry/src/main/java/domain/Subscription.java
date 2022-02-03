@@ -17,6 +17,9 @@ public class Subscription implements Comparable<Subscription> {
 
     private Subscription(String id) {
         this.id = id;
+        this.srcServiceId = "";
+        this.targetServiceId = "";
+        this.targetServiceType = "";
     }
 
     public static Subscription create() {

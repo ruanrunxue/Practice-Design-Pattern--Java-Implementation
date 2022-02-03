@@ -2,6 +2,7 @@ package db.schema;
 
 import db.Table;
 import db.TableIterator;
+import db.TableVisitor;
 import db.exception.RecordAlreadyExistException;
 import db.exception.RecordNotFoundException;
 import db.iterator.SortedIterator;
@@ -14,10 +15,10 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 // 服务订阅表定义
-public class SubscriptionTable implements Table<Integer, Subscription> {
+public class SubscriptionTable implements Table<String, Subscription> {
     private final String name;
     // 使用HashMap存储表记录，key为Subscription.Id, value为SubscriptionTable.Record
-    private final Map<Integer, Record> records;
+    private final Map<String, Record> records;
 
     private SubscriptionTable(String name) {
         this.name = name;
@@ -34,7 +35,7 @@ public class SubscriptionTable implements Table<Integer, Subscription> {
     }
 
     @Override
-    public Optional<Subscription> query(Integer subscriptionId) {
+    public Optional<Subscription> query(String subscriptionId) {
         if (!records.containsKey(subscriptionId)) {
             return Optional.empty();
         }
@@ -44,7 +45,7 @@ public class SubscriptionTable implements Table<Integer, Subscription> {
 
     // 插入表记录
     @Override
-    public void insert(Integer subscriptionId, Subscription subscription) {
+    public void insert(String subscriptionId, Subscription subscription) {
         if (records.containsKey(subscriptionId)) {
             throw new RecordAlreadyExistException(subscriptionId.toString());
         }
@@ -53,7 +54,7 @@ public class SubscriptionTable implements Table<Integer, Subscription> {
 
     // 更新表记录，newRecord为新的记录
     @Override
-    public void update(Integer subscriptionId, Subscription newSubscription) {
+    public void update(String subscriptionId, Subscription newSubscription) {
         if (!records.containsKey(subscriptionId)) {
             throw new RecordNotFoundException(subscriptionId.toString());
         }
@@ -62,7 +63,7 @@ public class SubscriptionTable implements Table<Integer, Subscription> {
 
     // 删除表记录
     @Override
-    public void delete(Integer subscriptionId) {
+    public void delete(String subscriptionId) {
         if (!records.containsKey(subscriptionId)) {
             throw new RecordNotFoundException(subscriptionId.toString());
         }
@@ -76,6 +77,11 @@ public class SubscriptionTable implements Table<Integer, Subscription> {
                 .map(Record::toSubscription)
                 .collect(Collectors.toList());
         return new SortedIterator<>(subscriptions);
+    }
+
+    @Override
+    public List<Subscription> accept(TableVisitor<Subscription> visitor) {
+        return visitor.visit(this);
     }
 
 

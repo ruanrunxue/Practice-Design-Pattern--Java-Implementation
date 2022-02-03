@@ -2,9 +2,11 @@ package db.schema;
 
 import db.Table;
 import db.TableIterator;
+import db.TableVisitor;
 import db.exception.RecordAlreadyExistException;
 import db.exception.RecordNotFoundException;
 import db.iterator.SortedIterator;
+import domain.Region;
 import domain.ServiceProfile;
 import domain.ServiceStatus;
 
@@ -77,6 +79,11 @@ public class ServiceProfileTable implements Table<String, ServiceProfile> {
                 .map(Record::toServiceProfile)
                 .collect(Collectors.toList());
         return new SortedIterator<>(profiles);
+    }
+
+    @Override
+    public List<ServiceProfile> accept(TableVisitor<ServiceProfile> visitor) {
+        return visitor.visit(this);
     }
 
 

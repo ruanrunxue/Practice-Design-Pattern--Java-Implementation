@@ -2,6 +2,7 @@ package db.schema;
 
 import db.Table;
 import db.TableIterator;
+import db.TableVisitor;
 import db.exception.RecordAlreadyExistException;
 import db.exception.RecordNotFoundException;
 import db.iterator.SortedIterator;
@@ -87,6 +88,11 @@ public class RegionTable implements Table<Integer, Region> {
                 .map(Record::toRegion)
                 .collect(Collectors.toList());
         return new SortedIterator<>(regions);
+    }
+
+    @Override
+    public List<Region> accept(TableVisitor<Region> visitor) {
+        return visitor.visit(this);
     }
 
     // 享元模式 关键点1：根据业务的上下文，定义享元对象，其他对象通过regionId共享RegionTable.Record
