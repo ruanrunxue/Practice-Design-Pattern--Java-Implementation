@@ -1,12 +1,16 @@
+package db.cmd;
+
 import db.MemoryDb;
-import db.Table;
-import db.cmd.Cmd;
-import db.schema.ServiceProfileTable;
 import db.schema.SubscriptionTable;
 import domain.Subscription;
+import org.junit.Test;
 
-public class Example {
-    public static void main(String[] args) {
+import static org.junit.Assert.*;
+
+public class CmdTest {
+
+    @Test
+    public void testCmd() {
         SubscriptionTable table = SubscriptionTable.of("TestTable");
         table.insert("0", Subscription.of("0").withSrcServiceId("src1").withTargetServiceId("target1"));
         table.insert("1", Subscription.of("1").withSrcServiceId("src1").withTargetServiceId("target2"));
@@ -17,4 +21,5 @@ public class Example {
 
         Cmd.create().start();
     }
+
 }

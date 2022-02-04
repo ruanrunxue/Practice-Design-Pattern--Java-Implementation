@@ -1,5 +1,7 @@
 package db.dsl;
 
+import db.exception.InvalidGrammarException;
+
 import java.util.Arrays;
 
 // select语句解析逻辑，Select关键字后面跟的为column，以,分割，比如Select regionId,regionName

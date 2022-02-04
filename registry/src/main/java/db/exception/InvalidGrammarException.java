@@ -1,8 +1,8 @@
-package db.dsl;
+package db.exception;
 
 public class InvalidGrammarException extends RuntimeException {
 
     public InvalidGrammarException(String expression) {
-        super("invalid grammar at " + expression);
+        super("invalid grammar at '" + expression + "'");
     }
 }

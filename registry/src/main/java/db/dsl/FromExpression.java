@@ -1,5 +1,7 @@
 package db.dsl;
 
+import db.exception.InvalidGrammarException;
+
 // from语句解析逻辑，From关键字后面跟的为表名，比如From RegionTable1
 public class FromExpression implements Expression {
     private final String tableName;

@@ -1,5 +1,7 @@
 package db.dsl;
 
+import db.exception.InvalidGrammarException;
+
 // where语句解析逻辑，where关键字后面跟的为xxx=xxx，当前只支持主键的条件过滤
 public class WhereExpression implements Expression {
     private final String condition;

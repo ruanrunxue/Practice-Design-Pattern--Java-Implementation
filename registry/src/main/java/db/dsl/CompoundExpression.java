@@ -1,5 +1,7 @@
 package db.dsl;
 
+import db.exception.InvalidGrammarException;
+
 // MemoryDB DSL语句解释器，DSL固定为select xxx,xxx,xxx from xxx where xxx=xxx 的固定格式
 // 例子：select regionId from regionTable where regionId=1
 public class CompoundExpression implements Expression {
