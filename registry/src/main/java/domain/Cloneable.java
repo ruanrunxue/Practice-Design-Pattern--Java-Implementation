@@ -10,7 +10,7 @@ package domain;
  */
 
 // 对象复制接口，当对象有复制需求时，可实现该接口，在clone方法中实现对象复制逻辑
-public interface Prototype<T> {
+public interface Cloneable<T> {
     // 原型模式 关键点1：定义对象复制方法，返回原型对象
     T clone();
 }

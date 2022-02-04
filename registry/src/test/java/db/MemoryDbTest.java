@@ -5,6 +5,7 @@ import db.schema.RegionTable;
 import db.schema.SubscriptionTable;
 import domain.Region;
 import domain.Subscription;
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -13,8 +14,8 @@ import java.util.Optional;
 
 public class MemoryDbTest {
 
-    @Before
-    public void setUp() throws Exception {
+    @After
+    public void tearDown() throws Exception {
         MemoryDb.instance().clear();
     }
 

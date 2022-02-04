@@ -1,7 +1,9 @@
 package db.visitor;
 
+import db.MemoryDb;
 import db.schema.SubscriptionTable;
 import domain.Subscription;
+import org.junit.After;
 import org.junit.Test;
 
 import java.util.List;
@@ -9,6 +11,11 @@ import java.util.List;
 import static org.junit.Assert.*;
 
 public class SubscriptionVisitorTest {
+
+    @After
+    public void tearDown() throws Exception {
+        MemoryDb.instance().clear();
+    }
 
     @Test
     public void testSubscriptionVisitor() {

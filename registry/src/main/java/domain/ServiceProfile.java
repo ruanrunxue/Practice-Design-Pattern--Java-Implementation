@@ -17,7 +17,7 @@ package domain;
  */
 
 // 服务档案，其中服务ID唯一标识一个服务实例，一种服务类型可以有多个服务实例
-public class ServiceProfile implements Prototype<ServiceProfile>, Comparable<ServiceProfile> {
+public class ServiceProfile implements Cloneable<ServiceProfile>, Comparable<ServiceProfile> {
     private final String id;
     private String type;
     private ServiceStatus status;

@@ -1,13 +1,20 @@
 package db.iterator;
 
+import db.MemoryDb;
 import db.TableIterator;
 import db.schema.RegionTable;
 import domain.Region;
+import org.junit.After;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 
 public class SortedIteratorTest {
+
+    @After
+    public void tearDown() throws Exception {
+        MemoryDb.instance().clear();
+    }
 
     @Test
     public void testRegionTableIterator() {
