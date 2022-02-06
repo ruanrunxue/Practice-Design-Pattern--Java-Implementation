@@ -1,7 +1,7 @@
 package com.yrunz.designpattern;
 
 import com.yrunz.designpattern.db.MemoryDb;
-import com.yrunz.designpattern.db.cmd.Cmd;
+import com.yrunz.designpattern.db.console.DbConsole;
 import com.yrunz.designpattern.db.schema.SubscriptionTable;
 import com.yrunz.designpattern.domain.Subscription;
 
@@ -15,6 +15,6 @@ public class Example {
 
         MemoryDb.instance().createTable(table);
 
-        Cmd.create().start();
+        DbConsole.create().start();
     }
 }

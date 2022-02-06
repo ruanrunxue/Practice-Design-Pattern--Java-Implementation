@@ -1,6 +1,6 @@
-package com.yrunz.designpattern.db.cmd;
+package com.yrunz.designpattern.db.console;
 
-public class ErrorRender implements CmdRender {
+public class ErrorRender implements DbConsoleRender {
 
     private final String message;
 

@@ -1,4 +1,4 @@
-package com.yrunz.designpattern.db.cmd;
+package com.yrunz.designpattern.db.console;
 
 import com.yrunz.designpattern.db.MemoryDb;
 import com.yrunz.designpattern.db.dsl.Result;
@@ -6,11 +6,11 @@ import com.yrunz.designpattern.db.dsl.Result;
 import java.util.Scanner;
 
 // 命令行人机交互，提供dsl执行功能
-public class Cmd {
-    private Cmd() {}
+public class DbConsole {
+    private DbConsole() {}
 
-    public static Cmd create() {
-        return new Cmd();
+    public static DbConsole create() {
+        return new DbConsole();
     }
 
     public void start() {
@@ -32,7 +32,7 @@ public class Cmd {
         }
     }
 
-    private void print(CmdRender cmdRender) {
-        System.out.println(cmdRender.render());
+    private void print(DbConsoleRender dbConsoleRender) {
+        System.out.println(dbConsoleRender.render());
     }
 }

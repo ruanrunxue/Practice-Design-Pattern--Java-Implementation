@@ -1,4 +1,4 @@
-package com.yrunz.designpattern.db.cmd;
+package com.yrunz.designpattern.db.console;
 
 import com.yrunz.designpattern.db.dsl.Result;
 import de.vandermeer.asciitable.AsciiTable;
@@ -16,7 +16,7 @@ import de.vandermeer.asciitable.AsciiTable;
 
 // DSL结果Cmd渲染适配器，将DSL输出结果适配为cmd输出
 // 关键点1：定义适配器类Adapter，实现Target接口
-public class DslResultRender implements CmdRender {
+public class DslResultRender implements DbConsoleRender {
     // 关键点2：适配器类Adapter持有Adaptee作为成员属性
     private final Result result;
 
