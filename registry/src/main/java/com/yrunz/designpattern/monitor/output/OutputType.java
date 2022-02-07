@@ -1,7 +1,7 @@
 package com.yrunz.designpattern.monitor.output;
 
 public enum OutputType {
-    MEMORY_DB("com.yrunz.designpattern.monitor.input.MemoryDbOutput");
+    MEMORY_DB("com.yrunz.designpattern.monitor.output.MemoryDbOutput");
 
     private final String classPath;
 

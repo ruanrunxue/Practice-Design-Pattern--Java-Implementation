@@ -6,7 +6,6 @@ import com.yrunz.designpattern.db.schema.MonitorEventTable;
 import com.yrunz.designpattern.domain.MonitorEvent;
 import com.yrunz.designpattern.monitor.plugin.Config;
 import com.yrunz.designpattern.monitor.plugin.Event;
-import com.yrunz.designpattern.monitor.plugin.OutputPlugin;
 
 // 将MonitorEvent存储到MemoryDb上
 public class MemoryDbOutput implements OutputPlugin {

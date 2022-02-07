@@ -3,7 +3,6 @@ package com.yrunz.designpattern.monitor.filter;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.yrunz.designpattern.monitor.plugin.Event;
-import com.yrunz.designpattern.monitor.plugin.FilterPlugin;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -15,7 +14,7 @@ public class Log2JsonFilter implements FilterPlugin {
     private final Pattern logPattern;
 
     public Log2JsonFilter() {
-        logPattern = Pattern.compile("\\[.+]\\[.+].*");
+        logPattern = Pattern.compile("\\[(.+)]\\[(.+)].*");
     }
 
     @Override

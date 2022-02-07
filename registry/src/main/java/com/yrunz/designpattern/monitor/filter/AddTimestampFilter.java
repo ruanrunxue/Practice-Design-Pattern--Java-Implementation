@@ -2,7 +2,6 @@ package com.yrunz.designpattern.monitor.filter;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.yrunz.designpattern.monitor.plugin.Event;
-import com.yrunz.designpattern.monitor.plugin.FilterPlugin;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;

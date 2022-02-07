@@ -1,7 +1,6 @@
 package com.yrunz.designpattern.monitor.filter;
 
 import com.yrunz.designpattern.monitor.plugin.Event;
-import com.yrunz.designpattern.monitor.plugin.FilterPlugin;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +18,7 @@ public class FilterChain implements FilterPlugin {
         this.chain = new ArrayList<>();
     }
 
-    public static FilterChain create() {
+    public static FilterChain empty() {
         return new FilterChain();
     }
 

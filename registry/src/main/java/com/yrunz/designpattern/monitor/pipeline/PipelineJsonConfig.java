@@ -2,10 +2,10 @@ package com.yrunz.designpattern.monitor.pipeline;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.yrunz.designpattern.monitor.exception.LoadConfigExecption;
-import com.yrunz.designpattern.monitor.filter.FilterConfig;
-import com.yrunz.designpattern.monitor.input.InputConfig;
-import com.yrunz.designpattern.monitor.output.OutputConfig;
+import com.yrunz.designpattern.monitor.exception.LoadConfigException;
+import com.yrunz.designpattern.monitor.filter.FilterJsonConfig;
+import com.yrunz.designpattern.monitor.input.InputJsonConfig;
+import com.yrunz.designpattern.monitor.output.OutputJsonConfig;
 import com.yrunz.designpattern.monitor.plugin.Config;
 
 /**
@@ -13,20 +13,20 @@ import com.yrunz.designpattern.monitor.plugin.Config;
  * 例子：
  * {"name":"pipline1", "input":{...}, "filter":{...}, "output":{...}}
  */
-public class PipelineConfig implements Config {
+public class PipelineJsonConfig implements Config {
     private String name;
     private Config input;
     private Config filter;
     private Config output;
 
-    private PipelineConfig() {
-        this.input = InputConfig.empty();
-        this.filter = FilterConfig.empty();
-        this.output = OutputConfig.empty();
+    private PipelineJsonConfig() {
+        this.input = InputJsonConfig.empty();
+        this.filter = FilterJsonConfig.empty();
+        this.output = OutputJsonConfig.empty();
     }
 
-    public static PipelineConfig empty() {
-        return new PipelineConfig();
+    public static PipelineJsonConfig empty() {
+        return new PipelineJsonConfig();
     }
 
     @Override
@@ -39,7 +39,7 @@ public class PipelineConfig implements Config {
             filter.load(config.get("filter").asText());
             output.load(config.get("output").asText());
         } catch (Exception e) {
-            throw new LoadConfigExecption(e.getMessage());
+            throw new LoadConfigException(e.getMessage());
         }
     }
 

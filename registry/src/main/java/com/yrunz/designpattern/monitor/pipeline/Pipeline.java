@@ -1,9 +1,9 @@
 package com.yrunz.designpattern.monitor.pipeline;
 
-import com.yrunz.designpattern.monitor.plugin.FilterPlugin;
+import com.yrunz.designpattern.monitor.filter.FilterPlugin;
 import com.yrunz.designpattern.monitor.plugin.Event;
-import com.yrunz.designpattern.monitor.plugin.InputPlugin;
-import com.yrunz.designpattern.monitor.plugin.OutputPlugin;
+import com.yrunz.designpattern.monitor.input.InputPlugin;
+import com.yrunz.designpattern.monitor.output.OutputPlugin;
 import com.yrunz.designpattern.monitor.plugin.Plugin;
 
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -36,7 +36,7 @@ public class Pipeline implements Plugin {
         this.isClose.set(false);
 
         while (!isClose.get()) {
-            Event event = input.receive();
+            Event event = input.input();
             event = filter.filter(event);
             output.output(event);
         }

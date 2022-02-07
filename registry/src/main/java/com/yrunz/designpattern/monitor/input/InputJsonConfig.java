@@ -2,8 +2,10 @@ package com.yrunz.designpattern.monitor.input;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.yrunz.designpattern.monitor.exception.LoadConfigExecption;
+import com.yrunz.designpattern.monitor.exception.LoadConfigException;
 import com.yrunz.designpattern.monitor.plugin.Config;
+
+import java.util.Iterator;
 
 /**
  * input插件配置定义，为json字符串格式，包含name、type、context三个field，
@@ -11,18 +13,18 @@ import com.yrunz.designpattern.monitor.plugin.Config;
  * 例子：
  * {"name":"input1", "type":"memory_mq", "context":{"topic":"monitor",...}}
  */
-public class InputConfig implements Config {
+public class InputJsonConfig implements Config {
 
     private String name;
     private InputType type;
     private Context ctx;
 
-    private InputConfig() {
+    private InputJsonConfig() {
         ctx = Context.empty();
     }
 
-    public static InputConfig empty() {
-        return new InputConfig();
+    public static InputJsonConfig empty() {
+        return new InputJsonConfig();
     }
 
     @Override
@@ -33,12 +35,13 @@ public class InputConfig implements Config {
             name = config.get("name").asText();
             type = InputType.valueOf(config.get("type").asText().toUpperCase());
             JsonNode ctxNode = config.get("context");
-            while (ctxNode.fieldNames().hasNext()) {
-                String fieldName = ctxNode.fieldNames().next();
+            Iterator<String> fieldNames = ctxNode.fieldNames();
+            while (fieldNames.hasNext()) {
+                String fieldName = fieldNames.next();
                 ctx.add(fieldName, ctxNode.get(fieldName).asText());
             }
         } catch (Exception e) {
-            throw new LoadConfigExecption(e.getMessage());
+            throw new LoadConfigException(e.getMessage());
         }
     }
 

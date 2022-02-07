@@ -2,7 +2,7 @@ package com.yrunz.designpattern.monitor.filter;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.yrunz.designpattern.monitor.exception.LoadConfigExecption;
+import com.yrunz.designpattern.monitor.exception.LoadConfigException;
 import com.yrunz.designpattern.monitor.plugin.Config;
 
 import java.util.ArrayList;
@@ -13,16 +13,16 @@ import java.util.List;
  * 例子：
  * [{"name":"filter1", "type":"to_json"},{"name":"filter2", "type":"add_timestamp"},...]
  */
-public class FilterConfig implements Config {
+public class FilterJsonConfig implements Config {
 
     private List<Item> items;
 
-    private FilterConfig() {
+    private FilterJsonConfig() {
         items = new ArrayList<>();
     }
 
-    public static FilterConfig empty() {
-        return new FilterConfig();
+    public static FilterJsonConfig empty() {
+        return new FilterJsonConfig();
     }
 
     public List<Item> items() {
@@ -35,14 +35,14 @@ public class FilterConfig implements Config {
             ObjectMapper mapper = new ObjectMapper();
             JsonNode filterNodes = mapper.readTree(conf);
             if (!filterNodes.isArray()) {
-                throw new LoadConfigExecption("filter config is not json array");
+                throw new LoadConfigException("filter config is not json array");
             }
             for (JsonNode node : filterNodes) {
                 Item item = Item.of(node.get("name").asText(), node.get("type").asText());
                 items.add(item);
             }
         } catch (Exception e) {
-            throw new LoadConfigExecption(e.getMessage());
+            throw new LoadConfigException(e.getMessage());
         }
     }
 
