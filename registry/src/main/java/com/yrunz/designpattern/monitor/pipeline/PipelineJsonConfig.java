@@ -11,10 +11,11 @@ import com.yrunz.designpattern.monitor.plugin.Config;
 /**
  * pipeline配置定义，格式为json字符串
  * 例子：
- * {"name":"pipline1", "input":{...}, "filter":{...}, "output":{...}}
+ * {"name":"pipline1", "type":"single_thread", "input":{...}, "filter":{...}, "output":{...}}
  */
 public class PipelineJsonConfig implements Config {
     private String name;
+    private PipelineType type;
     private Config input;
     private Config filter;
     private Config output;
@@ -35,9 +36,10 @@ public class PipelineJsonConfig implements Config {
             ObjectMapper mapper = new ObjectMapper();
             JsonNode config = mapper.readTree(conf);
             name = config.get("name").asText();
-            input.load(config.get("input").asText());
-            filter.load(config.get("filter").asText());
-            output.load(config.get("output").asText());
+            type = PipelineType.valueOf(config.get("type").asText().toUpperCase());
+            input.load(config.get("input").toString());
+            filter.load(config.get("filter").toString());
+            output.load(config.get("output").toString());
         } catch (Exception e) {
             throw new LoadConfigException(e.getMessage());
         }
@@ -45,6 +47,10 @@ public class PipelineJsonConfig implements Config {
 
     public String name() {
         return name;
+    }
+
+    public PipelineType type() {
+        return type;
     }
 
     public Config input() {
