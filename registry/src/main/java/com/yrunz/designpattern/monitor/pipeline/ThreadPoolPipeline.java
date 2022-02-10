@@ -3,7 +3,6 @@ package com.yrunz.designpattern.monitor.pipeline;
 import com.yrunz.designpattern.monitor.filter.FilterPlugin;
 import com.yrunz.designpattern.monitor.input.InputPlugin;
 import com.yrunz.designpattern.monitor.output.OutputPlugin;
-import com.yrunz.designpattern.monitor.plugin.Config;
 import com.yrunz.designpattern.monitor.plugin.Event;
 
 import java.util.concurrent.ExecutorService;

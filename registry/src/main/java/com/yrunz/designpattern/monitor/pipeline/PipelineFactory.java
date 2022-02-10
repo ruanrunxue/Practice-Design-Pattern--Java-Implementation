@@ -1,5 +1,7 @@
 package com.yrunz.designpattern.monitor.pipeline;
 
+import com.yrunz.designpattern.monitor.config.Config;
+import com.yrunz.designpattern.monitor.config.json.JsonPipelineConfig;
 import com.yrunz.designpattern.monitor.exception.CreatePluginException;
 import com.yrunz.designpattern.monitor.filter.FilterPlugin;
 import com.yrunz.designpattern.monitor.filter.FilterPluginFactory;
@@ -19,10 +21,10 @@ public class PipelineFactory implements PluginFactory {
 
     @Override
     public Pipeline create(Config config) {
-        if (!(config instanceof PipelineJsonConfig)) {
+        if (!(config instanceof JsonPipelineConfig)) {
             return null;
         }
-        PipelineJsonConfig conf = (PipelineJsonConfig) config;
+        JsonPipelineConfig conf = (JsonPipelineConfig) config;
         InputPlugin input = InputPluginFactory.newInstance().create(conf.input());
         FilterPlugin filter = FilterPluginFactory.newInstance().create(conf.filter());
         OutputPlugin output = OutputPluginFactory.newInstance().create(conf.output());

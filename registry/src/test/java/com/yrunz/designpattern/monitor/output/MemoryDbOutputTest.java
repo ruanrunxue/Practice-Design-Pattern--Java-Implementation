@@ -3,6 +3,7 @@ package com.yrunz.designpattern.monitor.output;
 import com.yrunz.designpattern.db.MemoryDb;
 import com.yrunz.designpattern.db.schema.MonitorEventTable;
 import com.yrunz.designpattern.domain.MonitorEvent;
+import com.yrunz.designpattern.monitor.config.json.JsonOutputConfig;
 import com.yrunz.designpattern.monitor.plugin.Event;
 import org.junit.After;
 import org.junit.Test;
@@ -23,7 +24,7 @@ public class MemoryDbOutputTest {
     @Test
     public void testInstance() {
         String json = "{\"name\":\"memory_db_0\", \"type\":\"memory_db\", \"context\":{\"tableName\":\"test\"}}";
-        OutputJsonConfig config = OutputJsonConfig.empty();
+        JsonOutputConfig config = JsonOutputConfig.empty();
         config.load(json);
         assertEquals("memory_db_0", config.name());
         assertEquals(OutputType.MEMORY_DB, config.type());
@@ -37,7 +38,7 @@ public class MemoryDbOutputTest {
     @Test
     public void testOutput() {
         String json = "{\"name\":\"memory_db_0\", \"type\":\"memory_db\", \"context\":{\"tableName\":\"test\"}}";
-        OutputJsonConfig config = OutputJsonConfig.empty();
+        JsonOutputConfig config = JsonOutputConfig.empty();
         config.load(json);
         MemoryDbOutput outputPlugin = (MemoryDbOutput) OutputPluginFactory.newInstance().create(config);
         outputPlugin.install();

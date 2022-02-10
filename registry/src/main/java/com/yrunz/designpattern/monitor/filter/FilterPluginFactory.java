@@ -1,5 +1,7 @@
 package com.yrunz.designpattern.monitor.filter;
 
+import com.yrunz.designpattern.monitor.config.Config;
+import com.yrunz.designpattern.monitor.config.json.JsonFilterConfig;
 import com.yrunz.designpattern.monitor.exception.CreatePluginException;
 import com.yrunz.designpattern.monitor.plugin.*;
 
@@ -14,14 +16,14 @@ public class FilterPluginFactory implements PluginFactory {
 
     @Override
     public FilterPlugin create(Config config) {
-        if (!(config instanceof FilterJsonConfig)) {
+        if (!(config instanceof JsonFilterConfig)) {
             return null;
         }
-        FilterJsonConfig conf = (FilterJsonConfig) config;
+        JsonFilterConfig conf = (JsonFilterConfig) config;
         FilterChain filterChain = FilterChain.empty();
         String name = "";
         try {
-            for (FilterJsonConfig.Item item : conf.items()) {
+            for (JsonFilterConfig.Item item : conf.items()) {
                 name = item.name();
                 Class<?> filterClass = Class.forName(item.type().classPath());
                 FilterPlugin filter = (FilterPlugin) filterClass.getConstructor().newInstance();

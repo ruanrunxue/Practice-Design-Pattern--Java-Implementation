@@ -1,4 +1,4 @@
-package com.yrunz.designpattern.monitor.plugin;
+package com.yrunz.designpattern.monitor.config;
 
 import java.util.HashMap;
 import java.util.Map;

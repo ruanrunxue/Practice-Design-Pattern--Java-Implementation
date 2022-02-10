@@ -1,6 +1,10 @@
 package com.yrunz.designpattern.monitor.pipeline;
 
 import com.yrunz.designpattern.db.MemoryDb;
+import com.yrunz.designpattern.monitor.config.json.JsonFilterConfig;
+import com.yrunz.designpattern.monitor.config.json.JsonInputConfig;
+import com.yrunz.designpattern.monitor.config.json.JsonOutputConfig;
+import com.yrunz.designpattern.monitor.config.json.JsonPipelineConfig;
 import org.junit.After;
 import org.junit.Test;
 
@@ -21,7 +25,7 @@ public class SingleThreadPipelineTest {
                 "\"filter\":" +"[{\"name\":\"log_to_json_0\", \"type\":\"log_to_json\"}," +
                 "{\"name\":\"add_timestamp_0\", \"type\":\"add_timestamp\"}," +
                 "{\"name\":\"json_to_monitor_event_0\", \"type\":\"json_to_monitor_event\"}]" +"}";
-        PipelineJsonConfig config = PipelineJsonConfig.empty();
+        JsonPipelineConfig config = JsonPipelineConfig.of(JsonInputConfig.empty(), JsonFilterConfig.empty(), JsonOutputConfig.empty());
         config.load(json);
 
         Pipeline pipeline = PipelineFactory.newInstance().create(config);
@@ -36,7 +40,7 @@ public class SingleThreadPipelineTest {
                 "\"filter\":" +"[{\"name\":\"log_to_json_0\", \"type\":\"log_to_json\"}," +
                 "{\"name\":\"add_timestamp_0\", \"type\":\"add_timestamp\"}," +
                 "{\"name\":\"json_to_monitor_event_0\", \"type\":\"json_to_monitor_event\"}]" +"}";
-        PipelineJsonConfig config = PipelineJsonConfig.empty();
+        JsonPipelineConfig config = JsonPipelineConfig.of(JsonInputConfig.empty(), JsonFilterConfig.empty(), JsonOutputConfig.empty());
         config.load(json);
 
         Pipeline pipeline = PipelineFactory.newInstance().create(config);

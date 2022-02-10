@@ -1,0 +1,19 @@
+name: "pipeline0"
+type: "single_thread"
+input:
+  name: "input0"
+  type: "memory_mq"
+  context:
+    topic: "test"
+filter:
+  - name: "filter1"
+    type: "log_to_json"
+  - name: "filter2"
+    type: "add_timestamp"
+  - name: "filter3"
+    type: "json_to_monitor_event"
+output:
+  name: "output0"
+  type: "memory_db"
+  context:
+    tableName: "test"

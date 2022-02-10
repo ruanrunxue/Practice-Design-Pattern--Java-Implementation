@@ -1,24 +1,27 @@
-package com.yrunz.designpattern.monitor.output;
+package com.yrunz.designpattern.monitor.config.json;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.yrunz.designpattern.monitor.config.OutputConfig;
 import com.yrunz.designpattern.monitor.exception.LoadConfigException;
-import com.yrunz.designpattern.monitor.plugin.Config;
+import com.yrunz.designpattern.monitor.output.OutputType;
 
 import java.util.Iterator;
 
-public class OutputJsonConfig implements Config {
+/**
+ * output插件配置定义，为json字符串格式，包含name、type、context三个field，
+ * 其中context成员也为一个json对象，field和value不固定，根据具体的OutputPlugin灵活配置
+ * 例子：
+ * {"name":"output1", "type":"memory_db", "context":{"tableName":"test",...}}
+ */
+public class JsonOutputConfig extends OutputConfig {
 
-    private String name;
-    private OutputType type;
-    private Context ctx;
-
-    private OutputJsonConfig() {
-        ctx = Context.empty();
+    private JsonOutputConfig() {
+        super();
     }
 
-    public static OutputJsonConfig empty() {
-        return new OutputJsonConfig();
+    public static JsonOutputConfig empty() {
+        return new JsonOutputConfig();
     }
 
     @Override
@@ -37,17 +40,5 @@ public class OutputJsonConfig implements Config {
         } catch (Exception e) {
             throw new LoadConfigException(e.getMessage());
         }
-    }
-
-    public String name() {
-        return name;
-    }
-
-    public OutputType type() {
-        return type;
-    }
-
-    public Context context() {
-        return ctx;
     }
 }

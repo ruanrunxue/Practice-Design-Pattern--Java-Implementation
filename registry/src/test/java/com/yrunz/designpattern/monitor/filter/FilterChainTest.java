@@ -1,7 +1,7 @@
 package com.yrunz.designpattern.monitor.filter;
 
 import com.yrunz.designpattern.domain.MonitorEvent;
-import com.yrunz.designpattern.monitor.output.OutputJsonConfig;
+import com.yrunz.designpattern.monitor.config.json.JsonFilterConfig;
 import com.yrunz.designpattern.monitor.plugin.Event;
 import org.junit.Test;
 
@@ -14,7 +14,7 @@ public class FilterChainTest {
         String json = "[{\"name\":\"log_to_json_0\", \"type\":\"log_to_json\"}," +
                 "{\"name\":\"add_timestamp_0\", \"type\":\"add_timestamp\"}," +
                 "{\"name\":\"json_to_monitor_event_0\", \"type\":\"json_to_monitor_event\"}]";
-        FilterJsonConfig config = FilterJsonConfig.empty();
+        JsonFilterConfig config = JsonFilterConfig.empty();
         config.load(json);
 
         FilterPlugin filterPlugin = FilterPluginFactory.newInstance().create(config);
@@ -26,7 +26,7 @@ public class FilterChainTest {
         String json = "[{\"name\":\"log_to_json_0\", \"type\":\"log_to_json\"}," +
                 "{\"name\":\"add_timestamp_0\", \"type\":\"add_timestamp\"}," +
                 "{\"name\":\"json_to_monitor_event_0\", \"type\":\"json_to_monitor_event\"}]";
-        FilterJsonConfig config = FilterJsonConfig.empty();
+        JsonFilterConfig config = JsonFilterConfig.empty();
         config.load(json);
         FilterChain filterPlugin = (FilterChain) FilterPluginFactory.newInstance().create(config);
         filterPlugin.install();

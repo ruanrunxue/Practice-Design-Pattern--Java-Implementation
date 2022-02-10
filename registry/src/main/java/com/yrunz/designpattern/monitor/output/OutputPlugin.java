@@ -1,6 +1,6 @@
 package com.yrunz.designpattern.monitor.output;
 
-import com.yrunz.designpattern.monitor.plugin.Config;
+import com.yrunz.designpattern.monitor.config.Config;
 import com.yrunz.designpattern.monitor.plugin.Event;
 import com.yrunz.designpattern.monitor.plugin.Plugin;
 

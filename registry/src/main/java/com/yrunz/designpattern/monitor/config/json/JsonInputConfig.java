@@ -1,9 +1,10 @@
-package com.yrunz.designpattern.monitor.input;
+package com.yrunz.designpattern.monitor.config.json;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.yrunz.designpattern.monitor.config.InputConfig;
 import com.yrunz.designpattern.monitor.exception.LoadConfigException;
-import com.yrunz.designpattern.monitor.plugin.Config;
+import com.yrunz.designpattern.monitor.input.InputType;
 
 import java.util.Iterator;
 
@@ -13,18 +14,14 @@ import java.util.Iterator;
  * 例子：
  * {"name":"input1", "type":"memory_mq", "context":{"topic":"monitor",...}}
  */
-public class InputJsonConfig implements Config {
+public class JsonInputConfig extends InputConfig {
 
-    private String name;
-    private InputType type;
-    private Context ctx;
-
-    private InputJsonConfig() {
-        ctx = Context.empty();
+    private JsonInputConfig() {
+        super();
     }
 
-    public static InputJsonConfig empty() {
-        return new InputJsonConfig();
+    public static JsonInputConfig empty() {
+        return new JsonInputConfig();
     }
 
     @Override
@@ -43,17 +40,5 @@ public class InputJsonConfig implements Config {
         } catch (Exception e) {
             throw new LoadConfigException(e.getMessage());
         }
-    }
-
-    public String name() {
-        return name;
-    }
-
-    public InputType type() {
-        return type;
-    }
-
-    public Context context() {
-        return ctx;
     }
 }

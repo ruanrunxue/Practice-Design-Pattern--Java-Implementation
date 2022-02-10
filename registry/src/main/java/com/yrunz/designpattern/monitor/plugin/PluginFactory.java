@@ -1,5 +1,7 @@
 package com.yrunz.designpattern.monitor.plugin;
 
+import com.yrunz.designpattern.monitor.config.Config;
+
 /**
  * 工厂模式
  */
