@@ -41,4 +41,21 @@ public class Endpoint {
         return port;
     }
 
+    @Override
+    public int hashCode() {
+        return port + ip.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (!(other instanceof Endpoint)) {
+            return false;
+        }
+        return port == ((Endpoint) other).port() && ip.equals(((Endpoint) other).ip());
+    }
+
+    @Override
+    public String toString() {
+        return ip + ":" + port;
+    }
 }

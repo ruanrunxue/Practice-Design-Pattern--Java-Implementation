@@ -105,7 +105,7 @@ public class SubscriptionTable implements Table<String, Subscription> {
         }
 
         public Subscription toSubscription() {
-            return Subscription.of(subscriptionId)
+            return Subscription.create().withId(subscriptionId)
                     .withSrcServiceId(srcServiceId)
                     .withTargetServiceId(targetServiceId)
                     .withTargetServiceType(targetServiceType);
