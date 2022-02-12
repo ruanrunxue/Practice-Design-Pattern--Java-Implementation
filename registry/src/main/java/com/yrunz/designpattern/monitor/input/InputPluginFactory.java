@@ -1,5 +1,6 @@
 package com.yrunz.designpattern.monitor.input;
 
+import com.yrunz.designpattern.monitor.config.InputConfig;
 import com.yrunz.designpattern.monitor.config.json.JsonInputConfig;
 import com.yrunz.designpattern.monitor.exception.CreatePluginException;
 import com.yrunz.designpattern.monitor.config.Config;
@@ -15,10 +16,10 @@ public class InputPluginFactory implements PluginFactory {
 
     @Override
     public InputPlugin create(Config config) {
-        if (!(config instanceof JsonInputConfig)) {
+        if (!(config instanceof InputConfig)) {
             return null;
         }
-        JsonInputConfig conf = (JsonInputConfig) config;
+        InputConfig conf = (InputConfig) config;
         try {
             Class<?> inputClass = Class.forName(conf.type().classPath());
             InputPlugin input = (InputPlugin) inputClass.getConstructor().newInstance();

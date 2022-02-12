@@ -1,0 +1,19 @@
+name: pipeline_0
+type: single_thread
+input:
+  name: input_0
+  type: memory_mq
+  context:
+    topic: monitor_0
+filter:
+  - name: filter_0
+    type: log_to_json
+  - name: filter_1
+    type: add_timestamp
+  - name: filter_2
+    type: json_to_monitor_event
+output:
+  name: output_0
+  type: memory_db
+  context:
+    tableName: monitor_event_0

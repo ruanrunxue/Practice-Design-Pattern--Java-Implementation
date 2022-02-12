@@ -1,6 +1,7 @@
 package com.yrunz.designpattern.monitor.output;
 
 import com.yrunz.designpattern.monitor.config.Config;
+import com.yrunz.designpattern.monitor.config.OutputConfig;
 import com.yrunz.designpattern.monitor.config.json.JsonOutputConfig;
 import com.yrunz.designpattern.monitor.exception.CreatePluginException;
 import com.yrunz.designpattern.monitor.plugin.*;
@@ -14,10 +15,10 @@ public class OutputPluginFactory implements PluginFactory {
     }
     @Override
     public OutputPlugin create(Config config) {
-        if (!(config instanceof JsonOutputConfig)) {
+        if (!(config instanceof OutputConfig)) {
             return null;
         }
-        JsonOutputConfig conf = (JsonOutputConfig) config;
+        OutputConfig conf = (OutputConfig) config;
         try {
             Class<?> outputClass = Class.forName(conf.type().classPath());
             OutputPlugin output = (OutputPlugin) outputClass.getConstructor().newInstance();
