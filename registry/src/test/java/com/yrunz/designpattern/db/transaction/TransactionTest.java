@@ -24,9 +24,9 @@ public class TransactionTest {
         MemoryDb.instance().createTable(RegionTable.of("region-table"));
         MemoryDb.instance().createTable(ServiceProfileTable.of("profile-table"));
 
-        Transaction transaction = Transaction.of("transaction1");
+        Transaction transaction = MemoryDb.instance().createTransaction("transaction1");
         transaction.begin();
-        Command<String, Region> regionInsert = InsertCommand.<String, Region>of("region-table")
+        Command regionInsert = InsertCommand.<String, Region>of("region-table")
                 .withPrimaryKey("0")
                 .withRecord(Region.of("0").withName("region0").withCountry("China"));
         transaction.exec(regionInsert);
@@ -38,7 +38,7 @@ public class TransactionTest {
                 .withPriority(1)
                 .withLoad(100)
                 .Build();
-        Command<String, ServiceProfile> profileInsert = InsertCommand.<String, ServiceProfile>of("profile-table")
+        Command profileInsert = InsertCommand.<String, ServiceProfile>of("profile-table")
                 .withPrimaryKey("0")
                 .withRecord(profile);
         transaction.exec(profileInsert);
@@ -64,9 +64,9 @@ public class TransactionTest {
         MemoryDb.instance().createTable(RegionTable.of("region-table"));
         MemoryDb.instance().createTable(ServiceProfileTable.of("profile-table"));
 
-        Transaction transaction = Transaction.of("transaction1");
+        Transaction transaction = MemoryDb.instance().createTransaction("transaction1");
         transaction.begin();
-        Command<String, Region> regionInsert = InsertCommand.<String, Region>of("region-table")
+        Command regionInsert = InsertCommand.<String, Region>of("region-table")
                 .withPrimaryKey("0")
                 .withRecord(Region.of("0").withName("region0").withCountry("China"));
         transaction.exec(regionInsert);
@@ -78,7 +78,7 @@ public class TransactionTest {
                 .withPriority(1)
                 .withLoad(100)
                 .Build();
-        Command<String, ServiceProfile> profileUpdate = UpdateCommand.<String, ServiceProfile>of("profile-table")
+        Command profileUpdate = UpdateCommand.<String, ServiceProfile>of("profile-table")
                 .withPrimaryKey("0")
                 .withRecord(profile);
         transaction.exec(profileUpdate);

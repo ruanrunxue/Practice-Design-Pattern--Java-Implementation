@@ -5,9 +5,11 @@ import com.yrunz.designpattern.db.dsl.Context;
 import com.yrunz.designpattern.db.dsl.Result;
 import com.yrunz.designpattern.db.exception.TableAlreadyExistException;
 import com.yrunz.designpattern.db.exception.TableNotFoundException;
+import com.yrunz.designpattern.db.transaction.Transaction;
 
 import java.lang.reflect.Field;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -24,7 +26,7 @@ import java.util.Optional;
  */
 
 //  饿汉单例模式
-public class MemoryDb {
+public class MemoryDb implements Db {
     // 关键点1：定义全局唯一的实例，系统初始化时就已经完成实例化
     private static final MemoryDb INSTANCE = new MemoryDb();
 
@@ -40,8 +42,38 @@ public class MemoryDb {
         return INSTANCE;
     }
 
+    @Override
+    public <PrimaryKey, Record> Optional<Record> query(String tableName, PrimaryKey primaryKey) {
+        Table<PrimaryKey, Record> table = (Table<PrimaryKey, Record>) tableOf(tableName);
+        return table.query(primaryKey);
+    }
+
+    @Override
+    public <PrimaryKey, Record> void insert(String tableName, PrimaryKey primaryKey, Record record) {
+        Table<PrimaryKey, Record> table = (Table<PrimaryKey, Record>) tableOf(tableName);
+        table.insert(primaryKey, record);
+    }
+
+    @Override
+    public <PrimaryKey, Record> void update(String tableName, PrimaryKey primaryKey, Record record) {
+        Table<PrimaryKey, Record> table = (Table<PrimaryKey, Record>) tableOf(tableName);
+        table.update(primaryKey, record);
+    }
+
+    @Override
+    public <PrimaryKey> void delete(String tableName, PrimaryKey primaryKey) {
+        Table<PrimaryKey, ?> table = (Table<PrimaryKey, ?>) tableOf(tableName);
+        table.delete(primaryKey);
+    }
+
+    @Override
+    public <Record> List<Record> accept(String tableName, TableVisitor<Record> visitor) {
+        Table<?, Record> table = (Table<?, Record>) tableOf(tableName);
+        return table.accept(visitor);
+    }
+
     // 查找表，如果表不存在，则抛出TableNotFoundException
-    public Table<?, ?> tableOf(String tableName) {
+    private Table<?, ?> tableOf(String tableName) {
         if (!tables.containsKey(tableName.toLowerCase())) {
             throw new TableNotFoundException(tableName.toLowerCase());
         }
@@ -49,6 +81,7 @@ public class MemoryDb {
     }
 
     // 创建表，如果表名已经创建，则抛出TableAlreadyExistException
+    @Override
     public void createTable(Table<?, ?> table) {
         if (tables.containsKey(table.name().toLowerCase())) {
             throw new TableAlreadyExistException(table.name().toLowerCase());
@@ -57,11 +90,17 @@ public class MemoryDb {
     }
 
     // 删除表，如果表不存在，则抛出TableNotFoundException
+    @Override
     public void deleteTable(String tableName) {
         if (!tables.containsKey(tableName.toLowerCase())) {
             throw new TableNotFoundException(tableName.toLowerCase());
         }
         tables.remove(tableName.toLowerCase());
+    }
+
+    @Override
+    public Transaction createTransaction(String transactionName) {
+        return Transaction.of(this, transactionName);
     }
 
     // 删除所有表

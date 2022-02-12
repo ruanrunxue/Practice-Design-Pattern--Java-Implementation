@@ -8,7 +8,7 @@ import java.util.List;
  */
 
 public class ExecHistory {
-    private final List<Command<?,?>> history;
+    private final List<Command> history;
 
     private ExecHistory() {
         history = new ArrayList<>();
@@ -18,7 +18,7 @@ public class ExecHistory {
         return new ExecHistory();
     }
 
-    public void add(Command<?,?> cmd) {
+    public void add(Command cmd) {
         history.add(cmd);
     }
 

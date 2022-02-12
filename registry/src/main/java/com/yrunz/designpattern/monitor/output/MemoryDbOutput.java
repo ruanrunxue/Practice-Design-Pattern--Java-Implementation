@@ -17,8 +17,7 @@ public class MemoryDbOutput implements OutputPlugin {
             return;
         }
         MonitorEvent monitorEvent = (MonitorEvent) event.payload();
-        MonitorEventTable table = (MonitorEventTable) MemoryDb.instance().tableOf(tableName);
-        table.insert(monitorEvent.id(), monitorEvent);
+        MemoryDb.instance().insert(tableName, monitorEvent.id(), monitorEvent);
     }
 
     @Override

@@ -25,9 +25,8 @@ public class MonitorSystemTest {
         Thread.sleep(1000);
 
 
-        MonitorEventTable table = (MonitorEventTable) MemoryDb.instance().tableOf("monitor_event_0");
         MonitorEventVisitor visitor = MonitorEventVisitor.create().withServiceId("service0");
-        List<MonitorEvent> records = table.accept(visitor);
+        List<MonitorEvent> records = MemoryDb.instance().accept("monitor_event_0", visitor);
         assertEquals(1, records.size());
     }
 

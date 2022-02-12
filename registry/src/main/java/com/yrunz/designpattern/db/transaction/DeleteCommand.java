@@ -1,11 +1,11 @@
 package com.yrunz.designpattern.db.transaction;
 
-import com.yrunz.designpattern.db.MemoryDb;
-import com.yrunz.designpattern.db.Table;
+import com.yrunz.designpattern.db.Db;
 
 import java.util.Optional;
 
-public class DeleteCommand<PrimaryKey, Record> implements Command<PrimaryKey, Record> {
+public class DeleteCommand<PrimaryKey, Record> implements Command {
+    private Db db;
     private final String tableName;
     private PrimaryKey primaryKey;
     private Record oldRecord;
@@ -25,15 +25,18 @@ public class DeleteCommand<PrimaryKey, Record> implements Command<PrimaryKey, Re
 
     @Override
     public void exec() {
-        Table<PrimaryKey, Record> table = (Table<PrimaryKey, Record>) MemoryDb.instance().tableOf(tableName);
-        Optional<Record> oldRecord = table.query(primaryKey);
+        Optional<Record> oldRecord = db.query(tableName, primaryKey);
         oldRecord.ifPresent(record -> this.oldRecord = record);
-        table.delete(primaryKey);
+        db.delete(tableName, primaryKey);
     }
 
     @Override
     public void undo() {
-        Table<PrimaryKey, Record> table = (Table<PrimaryKey, Record>) MemoryDb.instance().tableOf(tableName);
-        table.insert(primaryKey, oldRecord);
+        db.insert(tableName, primaryKey, oldRecord);
+    }
+
+    @Override
+    public void setDb(Db db) {
+        this.db = db;
     }
 }

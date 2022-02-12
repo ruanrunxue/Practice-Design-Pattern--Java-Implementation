@@ -1,9 +1,11 @@
 package com.yrunz.designpattern.db.transaction;
 
+import com.yrunz.designpattern.db.Db;
 import com.yrunz.designpattern.db.MemoryDb;
 import com.yrunz.designpattern.db.Table;
 
-public class InsertCommand <PrimaryKey, Record> implements Command<PrimaryKey, Record> {
+public class InsertCommand <PrimaryKey, Record> implements Command {
+    private Db db;
     private final String tableName;
     private PrimaryKey primaryKey;
     private Record record;
@@ -27,15 +29,18 @@ public class InsertCommand <PrimaryKey, Record> implements Command<PrimaryKey, R
     }
 
     @Override
+    public void setDb(Db db) {
+        this.db = db;
+    }
+
+    @Override
     public void exec() {
-        Table<PrimaryKey, Record> table = (Table<PrimaryKey, Record>) MemoryDb.instance().tableOf(tableName);
-        table.insert(primaryKey, record);
+        db.insert(tableName, primaryKey, record);
     }
 
     @Override
     public void undo() {
-        Table<PrimaryKey, Record> table = (Table<PrimaryKey, Record>) MemoryDb.instance().tableOf(tableName);
-        table.delete(primaryKey);
+        db.delete(tableName, primaryKey);
     }
 
 }

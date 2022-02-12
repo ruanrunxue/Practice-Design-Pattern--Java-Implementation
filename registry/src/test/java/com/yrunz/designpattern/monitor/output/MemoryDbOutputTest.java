@@ -17,7 +17,7 @@ import static org.junit.Assert.*;
 public class MemoryDbOutputTest {
 
     @After
-    public void tearDown() throws Exception {
+    public void tearDown() {
         MemoryDb.instance().clear();
     }
 
@@ -47,8 +47,7 @@ public class MemoryDbOutputTest {
         MonitorEvent event = MonitorEvent.of("0", "service0", MonitorEvent.Type.RECV_REQ, now);
         outputPlugin.output(Event.of(event));
 
-        MonitorEventTable table = (MonitorEventTable) MemoryDb.instance().tableOf("test");
-        Optional<MonitorEvent> record = table.query("0");
+        Optional<MonitorEvent> record = MemoryDb.instance().query("test", "0");
         assertTrue(record.isPresent());
         assertEquals("service0", record.get().serviceId());
     }
