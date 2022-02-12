@@ -7,10 +7,10 @@ import java.util.Map;
 
 public class Network {
     private static final Network INSTANCE = new Network();
-    private final Map<Endpoint, Socket> services;
+    private final Map<Endpoint, Socket> sockets;
 
     private Network() {
-        services = new HashMap<>();
+        sockets = new HashMap<>();
     }
 
     public static Network instance() {
@@ -18,13 +18,17 @@ public class Network {
     }
 
     public void listen(Endpoint endpoint, Socket socket) {
-        services.put(endpoint, socket);
+        sockets.put(endpoint, socket);
+    }
+
+    public void disconnect(Endpoint endpoint) {
+        sockets.remove(endpoint);
     }
 
     public void send(SocketData socketData) {
-        if (!services.containsKey(socketData.dest())) {
+        if (!sockets.containsKey(socketData.dest())) {
             throw new ConnectionRefuseException(socketData.dest());
         }
-        services.get(socketData.dest()).receive(socketData);
+        sockets.get(socketData.dest()).receive(socketData);
     }
 }

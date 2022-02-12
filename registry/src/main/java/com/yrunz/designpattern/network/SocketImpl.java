@@ -12,6 +12,11 @@ public class SocketImpl implements Socket {
     }
 
     @Override
+    public void close(Endpoint endpoint) {
+        Network.instance().disconnect(endpoint);
+    }
+
+    @Override
     public void addListener(SocketListener listener) {
         this.listener = listener;
     }

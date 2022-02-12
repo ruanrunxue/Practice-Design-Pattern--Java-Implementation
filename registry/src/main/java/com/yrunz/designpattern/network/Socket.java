@@ -8,6 +8,7 @@ import com.yrunz.designpattern.domain.Endpoint;
 
 public interface Socket {
     void listen(Endpoint endpoint);
+    void close(Endpoint endpoint);
     // 监听Socket，入参为Data处理者
     void addListener(SocketListener listener);
     // 发送网络报文
