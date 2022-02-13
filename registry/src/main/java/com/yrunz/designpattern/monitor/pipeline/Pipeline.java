@@ -8,7 +8,7 @@ import com.yrunz.designpattern.monitor.plugin.Plugin;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
- * 桥接模式
+ * 桥接模式、模板方法模式
  */
 
 // pipeline由input、filter、output三种插件组成，定义了一个数据处理流程
@@ -30,6 +30,7 @@ public abstract class Pipeline implements Plugin {
     // 运行pipeline，由子类实现
     abstract void run();
 
+    // 模板方法
     @Override
     public void install() {
         this.output.install();
