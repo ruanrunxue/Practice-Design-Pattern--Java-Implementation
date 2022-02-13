@@ -1,6 +1,8 @@
 package com.yrunz.designpattern.monitor.output;
 
+import com.yrunz.designpattern.db.Db;
 import com.yrunz.designpattern.db.MemoryDb;
+import com.yrunz.designpattern.db.cache.CacheDbProxy;
 import com.yrunz.designpattern.db.exception.TableAlreadyExistException;
 import com.yrunz.designpattern.db.schema.MonitorEventTable;
 import com.yrunz.designpattern.domain.MonitorEvent;
@@ -10,6 +12,11 @@ import com.yrunz.designpattern.monitor.plugin.Event;
 // 将MonitorEvent存储到MemoryDb上
 public class MemoryDbOutput implements OutputPlugin {
     private String tableName;
+    private final Db db;
+
+    public MemoryDbOutput() {
+        db = CacheDbProxy.of(MemoryDb.instance());
+    }
 
     @Override
     public void output(Event event) {
@@ -17,7 +24,7 @@ public class MemoryDbOutput implements OutputPlugin {
             return;
         }
         MonitorEvent monitorEvent = (MonitorEvent) event.payload();
-        MemoryDb.instance().insert(tableName, monitorEvent.id(), monitorEvent);
+        db.insert(tableName, monitorEvent.id(), monitorEvent);
     }
 
     @Override
@@ -28,7 +35,7 @@ public class MemoryDbOutput implements OutputPlugin {
     @Override
     public void install() {
         try {
-            MemoryDb.instance().createTable(MonitorEventTable.of(tableName));
+            db.createTable(MonitorEventTable.of(tableName));
         } catch (TableAlreadyExistException e) {
             // 如果已经创建过，则不再创建
         }

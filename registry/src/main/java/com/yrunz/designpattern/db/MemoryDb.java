@@ -110,6 +110,7 @@ public class MemoryDb implements Db {
 
     // 执行DSL语句，当前只支持select查询
     // 例子：select regionId from regionTable where regionId=1
+    @Override
     public Result exec(String dslExpression) {
         Context context = Context.create();
         CompoundExpression.of(dslExpression).interpret(context);

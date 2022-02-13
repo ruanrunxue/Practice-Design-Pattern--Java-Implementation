@@ -1,5 +1,6 @@
 package com.yrunz.designpattern.db;
 
+import com.yrunz.designpattern.db.dsl.Result;
 import com.yrunz.designpattern.db.transaction.Transaction;
 
 import java.util.List;
@@ -15,4 +16,5 @@ public interface Db {
     void createTable(Table<?, ?> table);
     void deleteTable(String tableName);
     Transaction createTransaction(String transactionName);
+    Result exec(String dslExpression);
 }
