@@ -17,7 +17,7 @@ public class HttpServerTest {
         HttpReq req = HttpReq.empty().addMethod(HttpMethod.GET).addUri("/hello");
         HttpResp resp = client.sendReq(Endpoint.of("192.168.10.1", 80), req);
         assertEquals(204, resp.statusCode());
-        assertEquals(req.reqId(), resp.reqid());
+        assertEquals(req.reqId(), resp.reqId());
         client.close();
 
         server.shutdown();

@@ -30,7 +30,7 @@ public class HttpResp {
         return this;
     }
 
-    public int reqid() {
+    public int reqId() {
         return reqId;
     }
 
