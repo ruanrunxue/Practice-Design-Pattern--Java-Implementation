@@ -3,7 +3,7 @@ package com.yrunz.designpattern.monitor.input;
 import com.yrunz.designpattern.domain.Endpoint;
 import com.yrunz.designpattern.monitor.config.Config;
 import com.yrunz.designpattern.monitor.plugin.Event;
-import com.yrunz.designpattern.network.Socket;
+import com.yrunz.designpattern.network.SocketImpl;
 import com.yrunz.designpattern.network.SocketData;
 import com.yrunz.designpattern.network.SocketListener;
 
@@ -15,12 +15,12 @@ import java.util.concurrent.LinkedBlockingQueue;
 // 从网络上获取数据
 public class SocketInput implements InputPlugin, SocketListener {
 
-    private final Socket socket;
+    private final SocketImpl socket;
     private Endpoint endpoint;
     private final Queue<SocketData> dataQueue;
 
     public SocketInput() {
-        socket = new Socket();
+        socket = new SocketImpl();
         dataQueue = new LinkedBlockingQueue<>();
     }
 

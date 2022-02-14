@@ -11,20 +11,24 @@ import java.util.Map;
 public class HttpServer implements SocketListener {
 
     private final Socket socket;
-    private final Endpoint localEndpoint;
+    private Endpoint localEndpoint;
     // 第一层key为HttpMethod，第二层key为uri，value为请求处理函数/实现类
     private final Map<HttpMethod, Map<String, Handler>> routers;
 
-    private HttpServer(Endpoint localEndpoint) {
-        this.socket = new Socket();
-        this.localEndpoint = localEndpoint;
+    private HttpServer(Socket socket) {
+        this.socket = socket;
         this.routers = new HashMap<>();
     }
 
-    public static HttpServer of(String ip, int port) {
-        HttpServer server = new HttpServer(Endpoint.of(ip, port));
+    public static HttpServer of(Socket socket) {
+        HttpServer server = new HttpServer(socket);
         server.socket.addListener(server);
         return server;
+    }
+
+    public HttpServer listen(String ip, int port) {
+        this.localEndpoint = Endpoint.of(ip, port);
+        return this;
     }
 
     public HttpServer get(String uri, Handler handler) {

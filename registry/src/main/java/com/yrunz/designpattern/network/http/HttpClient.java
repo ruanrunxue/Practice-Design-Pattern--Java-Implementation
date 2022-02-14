@@ -16,25 +16,29 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public class HttpClient implements SocketListener {
 
     private final Socket socket;
-    private final Endpoint localEndpoint;
+    private Endpoint localEndpoint;
     // key为reqId，value为WaitHttpResp，用于同步等待对端响应
     private final Map<Integer, RespStatus> waitResps;
 
-    private HttpClient(Endpoint localEndpoint) {
-        this.socket = new Socket();
-        this.localEndpoint = localEndpoint;
+    private HttpClient(Socket socket) {
+        this.socket = socket;
         this.socket.listen(localEndpoint);
         this.waitResps = new ConcurrentHashMap<>();
     }
 
-    public static HttpClient of(String ip) {
+    public static HttpClient of(Socket socket) {
+        HttpClient client = new HttpClient(socket);
+        client.socket.addListener(client);
+        return client;
+    }
+
+    public HttpClient withIp(String ip) {
         Random random = new Random();
         random.setSeed(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().getNano());
         // 随机端口，从10000 ～ 19999
-        Endpoint endpoint = Endpoint.of(ip, random.nextInt(10000) + 10000);
-        HttpClient client = new HttpClient(endpoint);
-        client.socket.addListener(client);
-        return client;
+        this.localEndpoint = Endpoint.of(ip, random.nextInt(10000) + 10000);
+        this.socket.listen(this.localEndpoint);
+        return this;
     }
 
     public HttpResp sendReq(Endpoint dest, HttpReq req) {
@@ -61,7 +65,7 @@ public class HttpClient implements SocketListener {
     @Override
     public void handle(SocketData socketData) {
         HttpResp resp = (HttpResp) socketData.payload();
-        RespStatus respStatus = waitResps.get(resp.reqid());
+        RespStatus respStatus = waitResps.get(resp.reqId());
         synchronized (respStatus) {
             respStatus.resp = resp;
             respStatus.setDone();

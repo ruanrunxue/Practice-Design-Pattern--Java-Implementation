@@ -60,6 +60,10 @@ public class HttpReq {
         return uri;
     }
 
+    public String queryParam(String key) {
+        return queryParams.get(key);
+    }
+
     public String header(String key) {
         return headers.get(key);
     }
