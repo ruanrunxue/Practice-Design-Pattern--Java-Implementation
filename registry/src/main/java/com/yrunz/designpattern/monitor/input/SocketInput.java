@@ -4,7 +4,7 @@ import com.yrunz.designpattern.domain.Endpoint;
 import com.yrunz.designpattern.monitor.config.Config;
 import com.yrunz.designpattern.monitor.plugin.Event;
 import com.yrunz.designpattern.network.SocketImpl;
-import com.yrunz.designpattern.network.SocketData;
+import com.yrunz.designpattern.network.Packet;
 import com.yrunz.designpattern.network.SocketListener;
 
 import java.util.HashMap;
@@ -17,7 +17,7 @@ public class SocketInput implements InputPlugin, SocketListener {
 
     private final SocketImpl socket;
     private Endpoint endpoint;
-    private final Queue<SocketData> dataQueue;
+    private final Queue<Packet> dataQueue;
 
     public SocketInput() {
         socket = new SocketImpl();
@@ -26,7 +26,7 @@ public class SocketInput implements InputPlugin, SocketListener {
 
     @Override
     public Event input() {
-        SocketData data = dataQueue.poll();
+        Packet data = dataQueue.poll();
         Map<String, String> header = new HashMap<>();
         header.put("peer", data.src().toString());
         return Event.of(header, data.payload());
@@ -51,7 +51,7 @@ public class SocketInput implements InputPlugin, SocketListener {
     }
 
     @Override
-    public void handle(SocketData socketData) {
-        dataQueue.offer(socketData);
+    public void handle(Packet packet) {
+        dataQueue.offer(packet);
     }
 }

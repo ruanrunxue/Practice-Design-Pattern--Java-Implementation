@@ -4,7 +4,7 @@ import com.yrunz.designpattern.domain.Endpoint;
 import com.yrunz.designpattern.monitor.config.json.JsonInputConfig;
 import com.yrunz.designpattern.monitor.plugin.Event;
 import com.yrunz.designpattern.network.Network;
-import com.yrunz.designpattern.network.SocketData;
+import com.yrunz.designpattern.network.Packet;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -35,7 +35,7 @@ public class SocketInputTest {
 
         Endpoint src = Endpoint.ofDefaultPort("192.168.101.11");
         Endpoint dest = Endpoint.of("192.168.10.10", 8080);
-        Network.instance().send(SocketData.of(src, dest, "hello world"));
+        Network.instance().send(Packet.of(src, dest, "hello world"));
         Thread.sleep(100);
 
         Event event = inputPlugin.input();

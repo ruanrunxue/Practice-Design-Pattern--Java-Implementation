@@ -27,12 +27,12 @@ public class Network {
         sockets.remove(endpoint);
     }
 
-    public void send(SocketData socketData) {
-        if (!sockets.containsKey(socketData.dest())) {
-            throw new ConnectionRefuseException(socketData.dest());
+    public void send(Packet packet) {
+        if (!sockets.containsKey(packet.dest())) {
+            throw new ConnectionRefuseException(packet.dest());
         }
         Executors.newSingleThreadExecutor().submit(() -> {
-            sockets.get(socketData.dest()).receive(socketData);
+            sockets.get(packet.dest()).receive(packet);
         });
     }
 }

@@ -9,9 +9,9 @@ public interface Socket {
     // 关闭监听
     void close(Endpoint endpoint);
     // 发送网络报文
-    void send(SocketData socketData);
+    void send(Packet packet);
     // 接收网络报文
-    void receive(SocketData socketData);
+    void receive(Packet packet);
     // 增加网络报文监听者
     void addListener(SocketListener listener);
 }

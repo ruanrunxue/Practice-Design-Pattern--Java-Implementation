@@ -21,13 +21,13 @@ public class SocketImpl implements Socket {
     }
 
     @Override
-    public void send(SocketData socketData) {
-        Network.instance().send(socketData);
+    public void send(Packet packet) {
+        Network.instance().send(packet);
     }
 
     @Override
-    public void receive(SocketData socketData) {
-        listener.handle(socketData);
+    public void receive(Packet packet) {
+        listener.handle(packet);
     }
 
     @Override

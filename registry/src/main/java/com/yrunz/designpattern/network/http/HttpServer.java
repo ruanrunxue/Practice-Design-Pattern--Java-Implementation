@@ -2,7 +2,7 @@ package com.yrunz.designpattern.network.http;
 
 import com.yrunz.designpattern.domain.Endpoint;
 import com.yrunz.designpattern.network.Socket;
-import com.yrunz.designpattern.network.SocketData;
+import com.yrunz.designpattern.network.Packet;
 import com.yrunz.designpattern.network.SocketListener;
 
 import java.util.HashMap;
@@ -64,23 +64,23 @@ public class HttpServer implements SocketListener {
     }
 
     @Override
-    public void handle(SocketData socketData) {
-        if (!(socketData.payload() instanceof HttpReq)) {
+    public void handle(Packet packet) {
+        if (!(packet.payload() instanceof HttpReq)) {
             return;
         }
 
-        HttpReq httpReq = (HttpReq) socketData.payload();
+        HttpReq httpReq = (HttpReq) packet.payload();
         if (httpReq.isInvalid()) {
             HttpResp resp = HttpResp.of(httpReq.reqId())
                     .addStatusCode(400).addProblemDetails("Bad Request");
-            socket.send(SocketData.of(localEndpoint, socketData.src(), resp));
+            socket.send(Packet.of(localEndpoint, packet.src(), resp));
             return;
         }
 
         if (!routers.containsKey(httpReq.method())) {
             HttpResp resp = HttpResp.of(httpReq.reqId())
                     .addStatusCode(405).addProblemDetails("Method Not Allow");
-            socket.send(SocketData.of(localEndpoint, socketData.src(), resp));
+            socket.send(Packet.of(localEndpoint, packet.src(), resp));
             return;
         }
 
@@ -94,12 +94,12 @@ public class HttpServer implements SocketListener {
         if (reqHandler == null) {
             HttpResp resp = HttpResp.of(httpReq.reqId())
                     .addStatusCode(404).addProblemDetails("Not Found");
-            socket.send(SocketData.of(localEndpoint, socketData.src(), resp));
+            socket.send(Packet.of(localEndpoint, packet.src(), resp));
             return;
         }
 
         HttpResp resp = reqHandler.handle(httpReq);
-        socket.send(SocketData.of(localEndpoint, socketData.src(), resp));
+        socket.send(Packet.of(localEndpoint, packet.src(), resp));
     }
 
 }

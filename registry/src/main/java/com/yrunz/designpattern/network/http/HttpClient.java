@@ -2,7 +2,7 @@ package com.yrunz.designpattern.network.http;
 
 import com.yrunz.designpattern.domain.Endpoint;
 import com.yrunz.designpattern.network.Socket;
-import com.yrunz.designpattern.network.SocketData;
+import com.yrunz.designpattern.network.Packet;
 import com.yrunz.designpattern.network.SocketListener;
 
 import java.time.LocalDateTime;
@@ -45,8 +45,8 @@ public class HttpClient implements SocketListener {
         try {
             RespStatus respStatus = new RespStatus();
             waitResps.put(req.reqId(), respStatus);
-            SocketData socketData = SocketData.of(localEndpoint, dest, req);
-            socket.send(socketData);
+            Packet packet = Packet.of(localEndpoint, dest, req);
+            socket.send(packet);
             synchronized (respStatus) {
                 while (!respStatus.isDone()) {
                     respStatus.wait(5 * 1000);
@@ -63,8 +63,8 @@ public class HttpClient implements SocketListener {
     }
 
     @Override
-    public void handle(SocketData socketData) {
-        HttpResp resp = (HttpResp) socketData.payload();
+    public void handle(Packet packet) {
+        HttpResp resp = (HttpResp) packet.payload();
         RespStatus respStatus = waitResps.get(resp.reqId());
         synchronized (respStatus) {
             respStatus.resp = resp;
