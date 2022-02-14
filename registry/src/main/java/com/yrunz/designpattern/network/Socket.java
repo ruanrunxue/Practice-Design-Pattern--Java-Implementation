@@ -6,13 +6,28 @@ import com.yrunz.designpattern.domain.Endpoint;
  * 观察者模式
  */
 
-public interface Socket {
-    void listen(Endpoint endpoint);
-    void close(Endpoint endpoint);
-    // 监听Socket，入参为Data处理者
-    void addListener(SocketListener listener);
-    // 发送网络报文
-    void send(SocketData socketData);
-    // 接收网络报文
-    void receive(SocketData socketData);
+public class Socket {
+
+    private SocketListener listener;
+
+    public void listen(Endpoint endpoint) {
+        Network.instance().listen(endpoint, this);
+    }
+
+    public void close(Endpoint endpoint) {
+        Network.instance().disconnect(endpoint);
+    }
+
+    public void send(SocketData socketData) {
+        Network.instance().send(socketData);
+    }
+
+    public void receive(SocketData socketData) {
+        listener.handle(socketData);
+    }
+
+    public void addListener(SocketListener listener) {
+        this.listener = listener;
+    }
+
 }

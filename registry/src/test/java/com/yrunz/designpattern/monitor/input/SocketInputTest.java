@@ -26,7 +26,7 @@ public class SocketInputTest {
     }
 
     @Test
-    public void testInput() {
+    public void testInput() throws InterruptedException {
         String json = "{\"name\":\"socket_0\", \"type\":\"socket\", \"context\":{\"ip\":\"192.168.10.10\", \"port\":\"8080\"}}";
         JsonInputConfig config = JsonInputConfig.empty();
         config.load(json);
@@ -36,6 +36,7 @@ public class SocketInputTest {
         Endpoint src = Endpoint.ofDefaultPort("192.168.101.11");
         Endpoint dest = Endpoint.of("192.168.10.10", 8080);
         Network.instance().send(SocketData.of(src, dest, "hello world"));
+        Thread.sleep(100);
 
         Event event = inputPlugin.input();
         assertEquals("192.168.101.11:80", event.header().get("peer"));

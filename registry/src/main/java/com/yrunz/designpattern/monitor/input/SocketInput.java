@@ -5,7 +5,6 @@ import com.yrunz.designpattern.monitor.config.Config;
 import com.yrunz.designpattern.monitor.plugin.Event;
 import com.yrunz.designpattern.network.Socket;
 import com.yrunz.designpattern.network.SocketData;
-import com.yrunz.designpattern.network.SocketImpl;
 import com.yrunz.designpattern.network.SocketListener;
 
 import java.util.HashMap;
@@ -21,7 +20,7 @@ public class SocketInput implements InputPlugin, SocketListener {
     private final Queue<SocketData> dataQueue;
 
     public SocketInput() {
-        socket = new SocketImpl();
+        socket = new Socket();
         dataQueue = new LinkedBlockingQueue<>();
     }
 

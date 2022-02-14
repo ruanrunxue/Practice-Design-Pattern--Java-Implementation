@@ -4,8 +4,10 @@ import com.yrunz.designpattern.domain.Endpoint;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.Executors;
 
 public class Network {
+
     private static final Network INSTANCE = new Network();
     private final Map<Endpoint, Socket> sockets;
 
@@ -29,6 +31,8 @@ public class Network {
         if (!sockets.containsKey(socketData.dest())) {
             throw new ConnectionRefuseException(socketData.dest());
         }
-        sockets.get(socketData.dest()).receive(socketData);
+        Executors.newSingleThreadExecutor().submit(() -> {
+            sockets.get(socketData.dest()).receive(socketData);
+        });
     }
 }
