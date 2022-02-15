@@ -35,6 +35,10 @@ public class MemoryMq {
         queues.put(topic, new LinkedBlockingQueue<>());
     }
 
+    public void deleteTopic(String topic) {
+        queues.remove(topic);
+    }
+
     public void produce(Message message) {
         if (!queues.containsKey(message.topic())) {
             throw new TopicNotFoundException(message.topic());

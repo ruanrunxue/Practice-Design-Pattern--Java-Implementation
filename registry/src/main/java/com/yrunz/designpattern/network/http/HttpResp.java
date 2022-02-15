@@ -2,7 +2,7 @@ package com.yrunz.designpattern.network.http;
 
 public class HttpResp {
     private final int reqId;
-    private int statusCode;
+    private StatusCode statusCode;
     private Object body;
     private String problemDetails;
 
@@ -15,7 +15,7 @@ public class HttpResp {
         return new HttpResp(reqId);
     }
 
-    public HttpResp addStatusCode(int statusCode) {
+    public HttpResp addStatusCode(StatusCode statusCode) {
         this.statusCode = statusCode;
         return this;
     }
@@ -34,7 +34,7 @@ public class HttpResp {
         return reqId;
     }
 
-    public int statusCode() {
+    public StatusCode statusCode() {
         return statusCode;
     }
 

@@ -31,12 +31,12 @@ public class FilterChainTest {
         FilterChain filterPlugin = (FilterChain) FilterPluginFactory.newInstance().create(config);
         filterPlugin.install();
 
-        Event event = Event.of("[service0][recv_req]receive request from address 192.168.1.91 success");
+        Event event = Event.of("[192.168.1.1][recv_req]receive request from address 192.168.1.91 success");
         event = filterPlugin.filter(event);
 
         assertTrue(event.payload() instanceof MonitorEvent);
         MonitorEvent monitorEvent = (MonitorEvent) event.payload();
-        assertEquals("service0", monitorEvent.serviceId());
+        assertEquals("192.168.1.1", monitorEvent.serviceId());
         assertEquals(MonitorEvent.Type.RECV_REQ, monitorEvent.eventType());
     }
 

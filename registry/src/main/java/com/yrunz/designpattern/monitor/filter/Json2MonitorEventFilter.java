@@ -13,7 +13,7 @@ public class Json2MonitorEventFilter implements FilterPlugin {
             return event;
         }
         ObjectNode jsonNode = (ObjectNode) event.payload();
-        String serviceId = jsonNode.get("serviceId").asText();
+        String serviceId = jsonNode.get("localIp").asText();
         String eventType = jsonNode.get("eventType").asText();
         long timestamp = jsonNode.get("timestamp").asLong();
         MonitorEvent monitorEvent = MonitorEvent.of(serviceId,
