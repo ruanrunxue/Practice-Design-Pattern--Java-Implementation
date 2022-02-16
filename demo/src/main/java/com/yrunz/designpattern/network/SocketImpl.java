@@ -1,7 +1,5 @@
 package com.yrunz.designpattern.network;
 
-import com.yrunz.designpattern.domain.Endpoint;
-
 /**
  * 观察者模式
  */

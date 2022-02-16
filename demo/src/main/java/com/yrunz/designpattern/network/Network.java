@@ -1,7 +1,5 @@
 package com.yrunz.designpattern.network;
 
-import com.yrunz.designpattern.domain.Endpoint;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.Executors;

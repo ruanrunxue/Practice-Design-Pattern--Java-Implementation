@@ -1,6 +1,6 @@
 package com.yrunz.designpattern.monitor.input;
 
-import com.yrunz.designpattern.domain.Endpoint;
+import com.yrunz.designpattern.network.Endpoint;
 import com.yrunz.designpattern.monitor.config.json.JsonInputConfig;
 import com.yrunz.designpattern.monitor.plugin.Event;
 import com.yrunz.designpattern.network.Network;

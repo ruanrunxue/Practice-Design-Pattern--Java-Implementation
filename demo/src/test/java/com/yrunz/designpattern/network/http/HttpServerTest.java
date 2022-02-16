@@ -1,6 +1,6 @@
 package com.yrunz.designpattern.network.http;
 
-import com.yrunz.designpattern.domain.Endpoint;
+import com.yrunz.designpattern.network.Endpoint;
 import com.yrunz.designpattern.network.SocketImpl;
 import org.junit.Test;
 

@@ -1,7 +1,5 @@
 package com.yrunz.designpattern.network;
 
-import com.yrunz.designpattern.domain.Endpoint;
-
 // 网络通信数据
 public class Packet {
     private final Endpoint src;

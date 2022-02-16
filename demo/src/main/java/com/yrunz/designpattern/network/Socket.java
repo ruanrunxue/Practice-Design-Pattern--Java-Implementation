@@ -1,7 +1,5 @@
 package com.yrunz.designpattern.network;
 
-import com.yrunz.designpattern.domain.Endpoint;
-
 // 网络通信Socket接口
 public interface Socket {
     // 在endpoint指向地址上起监听

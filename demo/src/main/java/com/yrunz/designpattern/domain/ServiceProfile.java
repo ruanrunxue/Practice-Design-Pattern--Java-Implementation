@@ -1,5 +1,7 @@
 package com.yrunz.designpattern.domain;
 
+import com.yrunz.designpattern.network.Endpoint;
+
 /**
  * 建造者模式
  * 建造者模式适用于对象成员较多，创建对象逻辑较为繁琐的场景，主要都优点有如下2个：
