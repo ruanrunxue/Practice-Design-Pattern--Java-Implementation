@@ -1,6 +1,4 @@
-package com.yrunz.designpattern.flowctrl;
-
-import java.util.Random;
+package com.yrunz.designpattern.sidecar.flowctrl;
 
 // 正常状态，无须流控
 class NormalState extends AbstractFcState {

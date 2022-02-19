@@ -1,7 +1,7 @@
 package com.yrunz.designpattern.sidecar;
 
 import com.yrunz.designpattern.network.Endpoint;
-import com.yrunz.designpattern.flowctrl.FcContext;
+import com.yrunz.designpattern.sidecar.flowctrl.FcContext;
 import com.yrunz.designpattern.network.Network;
 import com.yrunz.designpattern.network.Packet;
 import com.yrunz.designpattern.network.Socket;

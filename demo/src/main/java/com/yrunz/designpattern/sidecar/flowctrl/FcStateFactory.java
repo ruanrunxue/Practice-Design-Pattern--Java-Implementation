@@ -1,4 +1,4 @@
-package com.yrunz.designpattern.flowctrl;
+package com.yrunz.designpattern.sidecar.flowctrl;
 
 // 流控状态工厂
 class FcStateFactory {
