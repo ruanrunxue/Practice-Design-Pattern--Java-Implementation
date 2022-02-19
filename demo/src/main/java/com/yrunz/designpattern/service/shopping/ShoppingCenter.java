@@ -40,7 +40,7 @@ public class ShoppingCenter implements Service {
     private HttpResp buy(HttpReq req) {
         String good = req.header("good");
         String user = req.header("user");
-        System.out.printf("user %s start to buy good %s.\n", user, good);
+        System.out.printf("\nuser %s start to buy good %s.\n", user, good);
 
         HttpClient client = HttpClient.of(sidecarFactory.create(), localIp);
 
