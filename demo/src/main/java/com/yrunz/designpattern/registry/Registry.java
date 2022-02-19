@@ -21,7 +21,6 @@ import com.yrunz.designpattern.network.Socket;
 import com.yrunz.designpattern.network.SocketImpl;
 import com.yrunz.designpattern.network.http.*;
 import com.yrunz.designpattern.service.Service;
-import com.yrunz.designpattern.sidecar.AccessLogSidecar;
 
 import java.util.List;
 import java.util.Optional;
@@ -243,6 +242,7 @@ public class Registry implements Service {
         return HttpResp.of(req.reqId()).addStatusCode(StatusCode.NO_CONTENT);
     }
 
+    // 服务通知
     private void notify(Notification.Type type, ServiceProfile profile) {
         SubscriptionVisitor visitor = SubscriptionVisitor.create()
                 .withTargetServiceId(profile.id())
@@ -254,7 +254,7 @@ public class Registry implements Service {
         HttpClient client = HttpClient.of(new SocketImpl())
                 .withIp(localIp);
         for (Subscription subscription : subscriptions) {
-            Notification notification = Notification.of(subscription.id(), type, profile);
+            Notification notification = Notification.of(subscription.id(), type, profile.clone());
             HttpReq req = HttpReq.empty()
                     .addUri(subscription.notifyUri())
                     .addMethod(HttpMethod.POST)
