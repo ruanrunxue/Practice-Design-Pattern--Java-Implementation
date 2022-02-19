@@ -1,4 +1,4 @@
-package com.yrunz.designpattern.mediator;
+package com.yrunz.designpattern.service.mediator;
 
 public class ServiceDiscoveryFailedException extends RuntimeException {
     public ServiceDiscoveryFailedException(String serviceType, String problemDetails) {

@@ -1,4 +1,4 @@
-package com.yrunz.designpattern.mediator;
+package com.yrunz.designpattern.service.mediator;
 
 import com.yrunz.designpattern.network.http.HttpReq;
 import com.yrunz.designpattern.network.http.HttpResp;

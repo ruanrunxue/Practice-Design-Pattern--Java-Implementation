@@ -1,4 +1,4 @@
-package com.yrunz.designpattern.registry;
+package com.yrunz.designpattern.service.registry;
 
 import com.yrunz.designpattern.db.Db;
 import com.yrunz.designpattern.db.cache.CacheDbProxy;

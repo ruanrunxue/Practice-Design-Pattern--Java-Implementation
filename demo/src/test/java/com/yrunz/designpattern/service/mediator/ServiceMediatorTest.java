@@ -1,4 +1,4 @@
-package com.yrunz.designpattern.mediator;
+package com.yrunz.designpattern.service.mediator;
 
 import com.yrunz.designpattern.db.Db;
 import com.yrunz.designpattern.db.MemoryDb;
@@ -6,7 +6,7 @@ import com.yrunz.designpattern.domain.ServiceProfile;
 import com.yrunz.designpattern.domain.ServiceStatus;
 import com.yrunz.designpattern.network.Network;
 import com.yrunz.designpattern.network.http.*;
-import com.yrunz.designpattern.registry.Registry;
+import com.yrunz.designpattern.service.registry.Registry;
 import com.yrunz.designpattern.sidecar.PureSocketSidecarFactory;
 import com.yrunz.designpattern.sidecar.SidecarFactory;
 import org.junit.After;
@@ -19,6 +19,7 @@ public class ServiceMediatorTest {
 
     @After
     public void tearDown() {
+        MemoryDb.instance().clear();
         Network.instance().disconnectAll();
     }
 

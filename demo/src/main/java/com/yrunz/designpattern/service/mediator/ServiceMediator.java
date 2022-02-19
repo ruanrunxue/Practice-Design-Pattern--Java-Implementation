@@ -1,4 +1,4 @@
-package com.yrunz.designpattern.mediator;
+package com.yrunz.designpattern.service.mediator;
 
 import com.yrunz.designpattern.domain.ServiceProfile;
 import com.yrunz.designpattern.network.Endpoint;
