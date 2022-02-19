@@ -30,6 +30,11 @@ public class HttpResp {
         return this;
     }
 
+    public HttpResp addHeaders(Map<String, String> headers) {
+        this.headers.putAll(headers);
+        return this;
+    }
+
     public HttpResp addBody(Object body) {
         this.body = body;
         return this;
@@ -50,6 +55,10 @@ public class HttpResp {
 
     public String header(String key) {
         return headers.get(key);
+    }
+
+    public Map<String, String> headers() {
+        return this.headers;
     }
 
     public Object body() {

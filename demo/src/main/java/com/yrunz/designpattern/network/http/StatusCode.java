@@ -8,7 +8,8 @@ public enum StatusCode {
     NOT_FOUND(404, "Not Found"),
     METHOD_NOT_ALLOW(405, "Method Not Allow"),
     TOO_MANY_REQUEST(429, "Too Many Request"),
-    INTERNAL_SERVER_ERROR(500, "Internal Server Error");
+    INTERNAL_SERVER_ERROR(500, "Internal Server Error"),
+    GATEWAY_TIMEOUT(504, "Gateway Timeout");
 
     private final int val;
     private final String msg;

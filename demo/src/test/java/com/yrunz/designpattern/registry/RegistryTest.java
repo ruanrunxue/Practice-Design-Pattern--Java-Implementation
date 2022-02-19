@@ -7,9 +7,9 @@ import com.yrunz.designpattern.domain.ServiceStatus;
 import com.yrunz.designpattern.domain.Subscription;
 import com.yrunz.designpattern.network.Endpoint;
 import com.yrunz.designpattern.network.Network;
-import com.yrunz.designpattern.network.Socket;
 import com.yrunz.designpattern.network.SocketImpl;
 import com.yrunz.designpattern.network.http.*;
+import com.yrunz.designpattern.sidecar.PureSocketSidecarFactory;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
@@ -25,12 +25,11 @@ public class RegistryTest {
     }
     @Test
     public void testRegister() {
-        Socket socket = new SocketImpl();
         Db db = MemoryDb.instance();
-        Registry registry = Registry.of("192.168.0.1", socket, db);
+        Registry registry = Registry.of("192.168.0.1", PureSocketSidecarFactory.newInstance(), db);
         registry.run();
 
-        HttpClient client = HttpClient.of(new SocketImpl()).withIp("192.168.0.2");
+        HttpClient client = HttpClient.of(new SocketImpl(), "192.168.0.2");
         ServiceProfile profile = ServiceProfile.Builder("service1")
                 .withEndpoint("192.168.0.2", 80)
                 .withRegion("0", "region-0", "CHINA")
@@ -112,12 +111,11 @@ public class RegistryTest {
 
     @Test
     public void testSubscribe() {
-        Socket socket = new SocketImpl();
         Db db = MemoryDb.instance();
-        Registry registry = Registry.of("192.168.0.1", socket, db);
+        Registry registry = Registry.of("192.168.0.1", PureSocketSidecarFactory.newInstance(), db);
         registry.run();
 
-        HttpClient client = HttpClient.of(new SocketImpl()).withIp("192.168.0.2");
+        HttpClient client = HttpClient.of(new SocketImpl(), "192.168.0.2");
         Subscription subscription =Subscription.create()
                 .withSrcServiceId("srcId")
                 .withTargetServiceId("targetId")
@@ -142,7 +140,7 @@ public class RegistryTest {
     @Test
     public void testNotify() throws InterruptedException {
         // 启动注册中心
-        Registry registry = Registry.of("192.168.0.1", new SocketImpl(), MemoryDb.instance());
+        Registry registry = Registry.of("192.168.0.1", PureSocketSidecarFactory.newInstance(), MemoryDb.instance());
         registry.run();
 
         // 起通知监听服务器
@@ -156,7 +154,7 @@ public class RegistryTest {
         notifyServer.start();
 
         // 创建订阅
-        HttpClient client = HttpClient.of(new SocketImpl()).withIp("192.168.0.2");
+        HttpClient client = HttpClient.of(new SocketImpl(), "192.168.0.2");
         Subscription subscription =Subscription.create()
                 .withSrcServiceId("service1")
                 .withTargetServiceType("order")

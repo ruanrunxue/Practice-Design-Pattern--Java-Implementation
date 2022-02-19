@@ -20,7 +20,7 @@ public class HttpReq {
 
     public static HttpReq empty() {
         Random random = new Random();
-        return new HttpReq(random.nextInt());
+        return new HttpReq(random.nextInt(10000));
     }
 
     public HttpReq addMethod(HttpMethod method) {
@@ -38,8 +38,18 @@ public class HttpReq {
         return this;
     }
 
+    public HttpReq addQueryParam(Map<String, String> queryParams) {
+        this.queryParams.putAll(queryParams);
+        return this;
+    }
+
     public HttpReq addHeader(String key, String value) {
         this.headers.put(key, value);
+        return this;
+    }
+
+    public HttpReq addHeaders(Map<String, String> headers) {
+        this.headers.putAll(headers);
         return this;
     }
 
@@ -64,8 +74,16 @@ public class HttpReq {
         return queryParams.get(key);
     }
 
+    public Map<String, String> queryParams() {
+        return queryParams;
+    }
+
     public String header(String key) {
         return headers.get(key);
+    }
+
+    public Map<String, String> headers() {
+        return headers;
     }
 
     public Object body() {

@@ -17,10 +17,10 @@ import com.yrunz.designpattern.domain.Notification;
 import com.yrunz.designpattern.domain.Region;
 import com.yrunz.designpattern.domain.ServiceProfile;
 import com.yrunz.designpattern.domain.Subscription;
-import com.yrunz.designpattern.network.Socket;
-import com.yrunz.designpattern.network.SocketImpl;
+import com.yrunz.designpattern.network.Endpoint;
 import com.yrunz.designpattern.network.http.*;
 import com.yrunz.designpattern.service.Service;
+import com.yrunz.designpattern.sidecar.SidecarFactory;
 
 import java.util.List;
 import java.util.Optional;
@@ -37,10 +37,12 @@ public class Registry implements Service {
     private final String RegionsTableName;
     private final String SubscriptionsTableName;
     private final ExecutorService executor;
+    private final SidecarFactory sidecarFactory;
 
-    private Registry(String ip, Socket socket, Db db) {
-        this.localIp = ip;
-        this.httpServer = HttpServer.of(socket).listen(ip, 80);
+    private Registry(String localIp, SidecarFactory sidecarFactory, Db db) {
+        this.localIp = localIp;
+        this.sidecarFactory = sidecarFactory;
+        this.httpServer = HttpServer.of(sidecarFactory.create()).listen(localIp, 80);
         this.db = CacheDbProxy.of(db);
         this.ServiceProfilesTableName = "service_profiles";
         this.RegionsTableName = "regions";
@@ -48,8 +50,8 @@ public class Registry implements Service {
         this.executor = Executors.newFixedThreadPool(10);
     }
 
-    public static Registry of(String ip, Socket socket, Db db) {
-        return new Registry(ip, socket, db);
+    public static Registry of(String ip, SidecarFactory sidecarFactory, Db db) {
+        return new Registry(ip, sidecarFactory, db);
     }
 
     @Override
@@ -65,6 +67,11 @@ public class Registry implements Service {
                 .put("/api/v1/subscription", this::subscribe)
                 .delete("/api/v1/subscription", this::unsubcribe)
                 .start();
+    }
+
+    @Override
+    public Endpoint endpoint() {
+        return Endpoint.of(localIp, 80);
     }
 
     // 服务注册
@@ -251,8 +258,7 @@ public class Registry implements Service {
         if (subscriptions.isEmpty()) {
             return;
         }
-        HttpClient client = HttpClient.of(new SocketImpl())
-                .withIp(localIp);
+        HttpClient client = HttpClient.of(sidecarFactory.create(), localIp);
         for (Subscription subscription : subscriptions) {
             Notification notification = Notification.of(subscription.id(), type, profile.clone());
             HttpReq req = HttpReq.empty()

@@ -32,8 +32,7 @@ public class FlowCtrlSidecarTest {
         HttpReq httpReq = HttpReq.empty()
                 .addMethod(HttpMethod.GET)
                 .addUri("/hello");
-        HttpClient client = HttpClient.of(new SocketImpl())
-                .withIp("192.168.19.2");
+        HttpClient client = HttpClient.of(new SocketImpl(), "192.168.19.2");
         HttpResp resp = client.sendReq(Endpoint.of("192.168.19.1", 80), httpReq);
         Assert.assertEquals(StatusCode.TOO_MANY_REQUEST, resp.statusCode());
 

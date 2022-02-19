@@ -1,7 +1,7 @@
 package com.yrunz.designpattern.network;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executors;
 
 public class Network {
@@ -10,7 +10,7 @@ public class Network {
     private final Map<Endpoint, Socket> sockets;
 
     private Network() {
-        sockets = new HashMap<>();
+        sockets = new ConcurrentHashMap<>();
     }
 
     public static Network instance() {
@@ -18,6 +18,9 @@ public class Network {
     }
 
     public void listen(Endpoint endpoint, Socket socket) {
+        if (sockets.containsKey(endpoint)) {
+            throw new EndpointAlreadyListenException(endpoint.toString());
+        }
         sockets.put(endpoint, socket);
     }
 

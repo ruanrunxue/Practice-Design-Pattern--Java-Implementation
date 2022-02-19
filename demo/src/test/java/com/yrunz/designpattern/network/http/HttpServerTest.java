@@ -15,7 +15,7 @@ public class HttpServerTest {
                 .get("/hello", req -> HttpResp.of(req.reqId()).addStatusCode(StatusCode.NO_CONTENT));
         server.start();
 
-        HttpClient client = HttpClient.of(new SocketImpl()).withIp("192.168.10.2");
+        HttpClient client = HttpClient.of(new SocketImpl(), "192.168.10.2");
         HttpReq req = HttpReq.empty().addMethod(HttpMethod.GET).addUri("/hello");
         HttpResp resp = client.sendReq(Endpoint.of("192.168.10.1", 80), req);
         assertEquals(StatusCode.NO_CONTENT, resp.statusCode());
