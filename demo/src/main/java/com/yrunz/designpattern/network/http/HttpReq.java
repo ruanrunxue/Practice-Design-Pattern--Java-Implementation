@@ -73,7 +73,7 @@ public class HttpReq {
     }
 
     public boolean isInvalid() {
-        return method != null && uri.equals("") && body != null;
+        return method != null && uri.equals("");
     }
 
 }

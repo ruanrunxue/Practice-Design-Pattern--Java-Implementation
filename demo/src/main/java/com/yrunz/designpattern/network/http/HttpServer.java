@@ -72,7 +72,7 @@ public class HttpServer implements SocketListener {
         HttpReq httpReq = (HttpReq) packet.payload();
         if (httpReq.isInvalid()) {
             HttpResp resp = HttpResp.of(httpReq.reqId())
-                    .addStatusCode(StatusCode.BAD_REQUEST).addProblemDetails(StatusCode.BAD_REQUEST.message());
+                    .addStatusCode(StatusCode.BAD_REQUEST).addProblemDetails("uri or method is empty");
             socket.send(Packet.of(localEndpoint, packet.src(), resp));
             return;
         }
@@ -93,7 +93,7 @@ public class HttpServer implements SocketListener {
         }
         if (reqHandler == null) {
             HttpResp resp = HttpResp.of(httpReq.reqId())
-                    .addStatusCode(StatusCode.NOT_FOUND).addProblemDetails(StatusCode.NOT_FOUND.message());
+                    .addStatusCode(StatusCode.NOT_FOUND).addProblemDetails("can not find handler of uri");
             socket.send(Packet.of(localEndpoint, packet.src(), resp));
             return;
         }

@@ -4,6 +4,7 @@ import com.yrunz.designpattern.db.Db;
 import com.yrunz.designpattern.db.MemoryDb;
 import com.yrunz.designpattern.domain.ServiceProfile;
 import com.yrunz.designpattern.domain.ServiceStatus;
+import com.yrunz.designpattern.domain.Subscription;
 import com.yrunz.designpattern.network.Endpoint;
 import com.yrunz.designpattern.network.Socket;
 import com.yrunz.designpattern.network.SocketImpl;
@@ -60,7 +61,7 @@ public class RegistryTest {
         HttpReq req3 = HttpReq.empty()
                 .addUri("/api/v1/service-profile")
                 .addMethod(HttpMethod.GET)
-                .addHeader("serviceType", "order");
+                .addQueryParam("serviceType", "order");
         HttpResp resp3 = client.sendReq(Endpoint.of("192.168.0.1", 80), req3);
         Assert.assertEquals(StatusCode.OK, resp3.statusCode());
         ServiceProfile serviceProfile = (ServiceProfile) resp3.body();
@@ -85,7 +86,7 @@ public class RegistryTest {
         HttpReq req5 = HttpReq.empty()
                 .addUri("/api/v1/service-profile")
                 .addMethod(HttpMethod.GET)
-                .addHeader("serviceId", "service1");
+                .addQueryParam("serviceId", "service1");
         HttpResp resp5 = client.sendReq(Endpoint.of("192.168.0.1", 80), req5);
         Assert.assertEquals(StatusCode.OK, resp5.statusCode());
         ServiceProfile profile4 = (ServiceProfile) resp5.body();
@@ -101,9 +102,38 @@ public class RegistryTest {
         HttpReq req7 = HttpReq.empty()
                 .addUri("/api/v1/service-profile")
                 .addMethod(HttpMethod.GET)
-                .addHeader("serviceId", "service1");
+                .addQueryParam("serviceId", "service1");
         HttpResp resp7 = client.sendReq(Endpoint.of("192.168.0.1", 80), req7);
         Assert.assertEquals(StatusCode.NOT_FOUND, resp7.statusCode());
+    }
+
+    @Test
+    public void testSubscribe() {
+        Socket socket = new SocketImpl();
+        Db db = MemoryDb.instance();
+        Registry registry = Registry.of("192.168.0.1", socket, db);
+        registry.run();
+
+        HttpClient client = HttpClient.of(new SocketImpl()).withIp("192.168.0.2");
+        Subscription subscription =Subscription.create()
+                .withSrcServiceId("srcId")
+                .withTargetServiceId("targetId")
+                .withTargetServiceType("targetType")
+                .withNotifyUrl("http://192.168.0.2:80/srcId/notify");
+        HttpReq req1 = HttpReq.empty()
+                .addUri("/api/v1/subscription")
+                .addMethod(HttpMethod.PUT)
+                .addBody(subscription);
+        HttpResp resp1 = client.sendReq(Endpoint.of("192.168.0.1", 80), req1);
+        Assert.assertEquals(StatusCode.CREATE, resp1.statusCode());
+        Assert.assertNotNull(resp1.header("subscriptionId"));
+
+        HttpReq req2 = HttpReq.empty()
+                .addMethod(HttpMethod.DELETE)
+                .addUri("/api/v1/subscription")
+                .addHeader("subscriptionId", resp1.header("subscriptionId"));
+        HttpResp resp2 = client.sendReq(Endpoint.of("192.168.0.1", 80), req2);
+        Assert.assertEquals(StatusCode.NO_CONTENT, resp2.statusCode());
     }
 
 }

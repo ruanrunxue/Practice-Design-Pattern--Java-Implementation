@@ -47,7 +47,7 @@ public class SubscriptionTable implements Table<String, Subscription> {
     @Override
     public void insert(String subscriptionId, Subscription subscription) {
         if (records.containsKey(subscriptionId)) {
-            throw new RecordAlreadyExistException(subscriptionId.toString());
+            throw new RecordAlreadyExistException(subscriptionId);
         }
         records.put(subscriptionId, Record.from(subscription));
     }
@@ -56,7 +56,7 @@ public class SubscriptionTable implements Table<String, Subscription> {
     @Override
     public void update(String subscriptionId, Subscription newSubscription) {
         if (!records.containsKey(subscriptionId)) {
-            throw new RecordNotFoundException(subscriptionId.toString());
+            throw new RecordNotFoundException(subscriptionId);
         }
         records.replace(subscriptionId, Record.from(newSubscription));
     }
@@ -65,7 +65,7 @@ public class SubscriptionTable implements Table<String, Subscription> {
     @Override
     public void delete(String subscriptionId) {
         if (!records.containsKey(subscriptionId)) {
-            throw new RecordNotFoundException(subscriptionId.toString());
+            throw new RecordNotFoundException(subscriptionId);
         }
         records.remove(subscriptionId);
     }
@@ -92,6 +92,7 @@ public class SubscriptionTable implements Table<String, Subscription> {
         private String srcServiceId;
         private String targetServiceId;
         private String targetServiceType;
+        private String notifyUrl;
 
         private Record() {}
 
@@ -101,6 +102,7 @@ public class SubscriptionTable implements Table<String, Subscription> {
             record.srcServiceId = subscription.srcServiceId();
             record.targetServiceId = subscription.targetServiceId();
             record.targetServiceType = subscription.targetServiceType();
+            record.notifyUrl = subscription.notifyUrl();
             return record;
         }
 
@@ -108,7 +110,8 @@ public class SubscriptionTable implements Table<String, Subscription> {
             return Subscription.create().withId(subscriptionId)
                     .withSrcServiceId(srcServiceId)
                     .withTargetServiceId(targetServiceId)
-                    .withTargetServiceType(targetServiceType);
+                    .withTargetServiceType(targetServiceType)
+                    .withNotifyUrl(notifyUrl);
         }
     }
 }

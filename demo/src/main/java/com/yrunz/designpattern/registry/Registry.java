@@ -14,6 +14,7 @@ import com.yrunz.designpattern.db.transaction.UpdateCommand;
 import com.yrunz.designpattern.db.visitor.ServiceProfileVisitor;
 import com.yrunz.designpattern.domain.Region;
 import com.yrunz.designpattern.domain.ServiceProfile;
+import com.yrunz.designpattern.domain.Subscription;
 import com.yrunz.designpattern.network.Socket;
 import com.yrunz.designpattern.network.http.HttpReq;
 import com.yrunz.designpattern.network.http.HttpResp;
@@ -23,6 +24,7 @@ import com.yrunz.designpattern.service.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 // 服务注册中心
 public class Registry implements Service {
@@ -54,6 +56,8 @@ public class Registry implements Service {
                 .post("/api/v1/service-profile", this::update)
                 .delete("/api/v1/service-profile", this::deregister)
                 .get("/api/v1/service-profile", this::discovery)
+                .put("/api/v1/subscription", this::subscribe)
+                .delete("/api/v1/subscription", this::unsubcribe)
                 .start();
     }
 
@@ -153,11 +157,11 @@ public class Registry implements Service {
 
     private HttpResp discovery(HttpReq req) {
         ServiceProfileVisitor visitor = ServiceProfileVisitor.create();
-        if (req.header("serviceId") != null) {
-            visitor.addServiceId(req.header("serviceId"));
+        if (req.queryParam("serviceId") != null) {
+            visitor.addServiceId(req.queryParam("serviceId"));
         }
-        if (req.header("serviceType") != null) {
-            visitor.addServiceType(req.header("serviceType"));
+        if (req.queryParam("serviceType") != null) {
+            visitor.addServiceType(req.queryParam("serviceType"));
         }
         List<ServiceProfile> result = db.accept(ServiceProfilesTableName, visitor);
         if (result.isEmpty()) {
@@ -174,5 +178,46 @@ public class Registry implements Service {
             }
         }).findAny().get();
         return HttpResp.of(req.reqId()).addStatusCode(StatusCode.OK).addBody(profile);
+    }
+
+    private HttpResp subscribe(HttpReq req) {
+        if (!(req.body() instanceof Subscription)) {
+            return HttpResp.of(req.reqId()).addStatusCode(StatusCode.BAD_REQUEST)
+                    .addProblemDetails("subscribe request's body is not Subscription");
+        }
+        Subscription subscription = (Subscription) req.body();
+        if (!subscription.id().equals("")) {
+            return HttpResp.of(req.reqId()).addStatusCode(StatusCode.BAD_REQUEST)
+                    .addProblemDetails("subscription id is not empty");
+        }
+        subscription.withId(UUID.randomUUID().toString());
+        try {
+            db.insert(SubscriptionsTableName, subscription.id(), subscription);
+        } catch (Exception e) {
+            return HttpResp.of(req.reqId())
+                    .addStatusCode(StatusCode.INTERNAL_SERVER_ERROR)
+                    .addProblemDetails(e.getMessage());
+        }
+        return HttpResp.of(req.reqId())
+                .addStatusCode(StatusCode.CREATE)
+                .addHeader("subscriptionId", subscription.id());
+    }
+
+    private HttpResp unsubcribe(HttpReq req) {
+        if (req.header("subscriptionId") == null) {
+            return HttpResp.of(req.reqId()).addStatusCode(StatusCode.BAD_REQUEST)
+                    .addProblemDetails("unsubcribe request not contain subscriptionId header");
+        }
+        String subscriptionId = req.header("subscriptionId");
+        try {
+            db.delete(SubscriptionsTableName, subscriptionId);
+        } catch (RecordNotFoundException e) {
+            return HttpResp.of(req.reqId()).addStatusCode(StatusCode.NOT_FOUND);
+        } catch (Exception e) {
+            return HttpResp.of(req.reqId())
+                    .addStatusCode(StatusCode.INTERNAL_SERVER_ERROR)
+                    .addProblemDetails(e.getMessage());
+        }
+        return HttpResp.of(req.reqId()).addStatusCode(StatusCode.NO_CONTENT);
     }
 }
