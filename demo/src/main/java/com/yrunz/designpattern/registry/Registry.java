@@ -12,34 +12,41 @@ import com.yrunz.designpattern.db.transaction.InsertCommand;
 import com.yrunz.designpattern.db.transaction.Transaction;
 import com.yrunz.designpattern.db.transaction.UpdateCommand;
 import com.yrunz.designpattern.db.visitor.ServiceProfileVisitor;
+import com.yrunz.designpattern.db.visitor.SubscriptionVisitor;
+import com.yrunz.designpattern.domain.Notification;
 import com.yrunz.designpattern.domain.Region;
 import com.yrunz.designpattern.domain.ServiceProfile;
 import com.yrunz.designpattern.domain.Subscription;
 import com.yrunz.designpattern.network.Socket;
-import com.yrunz.designpattern.network.http.HttpReq;
-import com.yrunz.designpattern.network.http.HttpResp;
-import com.yrunz.designpattern.network.http.HttpServer;
-import com.yrunz.designpattern.network.http.StatusCode;
+import com.yrunz.designpattern.network.SocketImpl;
+import com.yrunz.designpattern.network.http.*;
 import com.yrunz.designpattern.service.Service;
+import com.yrunz.designpattern.sidecar.AccessLogSidecar;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 // 服务注册中心
 public class Registry implements Service {
     private final HttpServer httpServer;
     private final Db db;
+    private final String localIp;
     private final String ServiceProfilesTableName;
     private final String RegionsTableName;
     private final String SubscriptionsTableName;
+    private final ExecutorService executor;
 
     private Registry(String ip, Socket socket, Db db) {
+        this.localIp = ip;
         this.httpServer = HttpServer.of(socket).listen(ip, 80);
         this.db = CacheDbProxy.of(db);
         this.ServiceProfilesTableName = "service_profiles";
         this.RegionsTableName = "regions";
         this.SubscriptionsTableName = "subscriptions";
+        this.executor = Executors.newFixedThreadPool(10);
     }
 
     public static Registry of(String ip, Socket socket, Db db) {
@@ -91,10 +98,12 @@ public class Registry implements Service {
                     .addStatusCode(StatusCode.BAD_REQUEST)
                     .addProblemDetails(e.getMessage());
         } catch (Exception e) {
-            HttpResp.of(req.reqId())
+            return HttpResp.of(req.reqId())
                     .addStatusCode(StatusCode.INTERNAL_SERVER_ERROR)
                     .addProblemDetails(e.getMessage());
         }
+        // 另起线程通知
+        executor.submit(() -> notify(Notification.Type.REGISTER, profile));
         return HttpResp.of(req.reqId()).addStatusCode(StatusCode.CREATE);
     }
 
@@ -130,6 +139,8 @@ public class Registry implements Service {
                     .addStatusCode(StatusCode.INTERNAL_SERVER_ERROR)
                     .addProblemDetails(e.getMessage());
         }
+        // 另起线程通知
+        executor.submit(() -> notify(Notification.Type.UPDATE, profile));
         return HttpResp.of(req.reqId()).addStatusCode(StatusCode.OK);
     }
 
@@ -140,8 +151,14 @@ public class Registry implements Service {
                     .addProblemDetails("service deregister request not contain serviceId header");
         }
         String serviceId = req.header("serviceId");
+        ServiceProfile profile;
         // 去注册只需删除ServiceProfile表记录
         try {
+            Optional<ServiceProfile> record = db.query(ServiceProfilesTableName, serviceId);
+            if (!record.isPresent()) {
+                throw new RecordNotFoundException(serviceId);
+            }
+            profile = record.get();
             db.delete(ServiceProfilesTableName, serviceId);
         } catch (RecordNotFoundException e) {
             return HttpResp.of(req.reqId())
@@ -152,9 +169,12 @@ public class Registry implements Service {
                     .addStatusCode(StatusCode.INTERNAL_SERVER_ERROR)
                     .addProblemDetails(e.getMessage());
         }
+        // 另起线程通知
+        executor.submit(() -> notify(Notification.Type.DEREGISTER, profile));
         return HttpResp.of(req.reqId()).addStatusCode(StatusCode.NO_CONTENT);
     }
 
+    // 服务发现
     private HttpResp discovery(HttpReq req) {
         ServiceProfileVisitor visitor = ServiceProfileVisitor.create();
         if (req.queryParam("serviceId") != null) {
@@ -180,6 +200,7 @@ public class Registry implements Service {
         return HttpResp.of(req.reqId()).addStatusCode(StatusCode.OK).addBody(profile);
     }
 
+    // 服务订阅
     private HttpResp subscribe(HttpReq req) {
         if (!(req.body() instanceof Subscription)) {
             return HttpResp.of(req.reqId()).addStatusCode(StatusCode.BAD_REQUEST)
@@ -203,6 +224,7 @@ public class Registry implements Service {
                 .addHeader("subscriptionId", subscription.id());
     }
 
+    // 服务去订阅
     private HttpResp unsubcribe(HttpReq req) {
         if (req.header("subscriptionId") == null) {
             return HttpResp.of(req.reqId()).addStatusCode(StatusCode.BAD_REQUEST)
@@ -219,5 +241,25 @@ public class Registry implements Service {
                     .addProblemDetails(e.getMessage());
         }
         return HttpResp.of(req.reqId()).addStatusCode(StatusCode.NO_CONTENT);
+    }
+
+    private void notify(Notification.Type type, ServiceProfile profile) {
+        SubscriptionVisitor visitor = SubscriptionVisitor.create()
+                .withTargetServiceId(profile.id())
+                .withTargetServiceType(profile.type());
+        List<Subscription> subscriptions = db.accept(SubscriptionsTableName, visitor);
+        if (subscriptions.isEmpty()) {
+            return;
+        }
+        HttpClient client = HttpClient.of(new SocketImpl())
+                .withIp(localIp);
+        for (Subscription subscription : subscriptions) {
+            Notification notification = Notification.of(subscription.id(), type, profile);
+            HttpReq req = HttpReq.empty()
+                    .addUri(subscription.notifyUri())
+                    .addMethod(HttpMethod.POST)
+                    .addBody(notification);
+           client.sendReq(subscription.notifyEndpoint(), req);
+        }
     }
 }

@@ -25,6 +25,10 @@ public class Network {
         sockets.remove(endpoint);
     }
 
+    public void disconnectAll() {
+        sockets.clear();
+    }
+
     public void send(Packet packet) {
         if (!sockets.containsKey(packet.dest())) {
             throw new ConnectionRefuseException(packet.dest());

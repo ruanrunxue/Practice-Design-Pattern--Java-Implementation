@@ -6,6 +6,7 @@ import com.yrunz.designpattern.domain.ServiceProfile;
 import com.yrunz.designpattern.domain.ServiceStatus;
 import com.yrunz.designpattern.domain.Subscription;
 import com.yrunz.designpattern.network.Endpoint;
+import com.yrunz.designpattern.network.Network;
 import com.yrunz.designpattern.network.Socket;
 import com.yrunz.designpattern.network.SocketImpl;
 import com.yrunz.designpattern.network.http.*;
@@ -13,13 +14,15 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 public class RegistryTest {
 
     @After
     public void tearDown() {
         MemoryDb.instance().clear();
+        Network.instance().disconnectAll();
     }
-
     @Test
     public void testRegister() {
         Socket socket = new SocketImpl();
@@ -134,6 +137,56 @@ public class RegistryTest {
                 .addHeader("subscriptionId", resp1.header("subscriptionId"));
         HttpResp resp2 = client.sendReq(Endpoint.of("192.168.0.1", 80), req2);
         Assert.assertEquals(StatusCode.NO_CONTENT, resp2.statusCode());
+    }
+
+    @Test
+    public void testNotify() throws InterruptedException {
+        // 启动注册中心
+        Registry registry = Registry.of("192.168.0.1", new SocketImpl(), MemoryDb.instance());
+        registry.run();
+
+        // 起通知监听服务器
+        AtomicInteger notifyCount = new AtomicInteger();
+        HttpServer notifyServer = HttpServer.of(new SocketImpl())
+                .listen("192.168.0.2", 80)
+                .post("/order/notify", req -> {
+                    notifyCount.incrementAndGet();
+                    return HttpResp.of(req.reqId()).addStatusCode(StatusCode.NO_CONTENT);
+                });
+        notifyServer.start();
+
+        // 创建订阅
+        HttpClient client = HttpClient.of(new SocketImpl()).withIp("192.168.0.2");
+        Subscription subscription =Subscription.create()
+                .withSrcServiceId("service1")
+                .withTargetServiceType("order")
+                .withNotifyUrl("http://192.168.0.2:80/order/notify");
+        HttpReq req1 = HttpReq.empty()
+                .addUri("/api/v1/subscription")
+                .addMethod(HttpMethod.PUT)
+                .addBody(subscription);
+        HttpResp resp1 = client.sendReq(Endpoint.of("192.168.0.1", 80), req1);
+        Assert.assertEquals(StatusCode.CREATE, resp1.statusCode());
+
+        // 模拟service2注册
+        ServiceProfile profile = ServiceProfile.Builder("service2")
+                .withEndpoint("192.168.0.3", 80)
+                .withRegion("0", "region-0", "CHINA")
+                .withPriority(1)
+                .withStatus(ServiceStatus.NORMAL)
+                .withType("order")
+                .withLoad(100)
+                .build();
+        HttpReq req = HttpReq.empty()
+                .addUri("/api/v1/service-profile")
+                .addMethod(HttpMethod.PUT)
+                .addBody(profile);
+        HttpResp resp = client.sendReq(Endpoint.of("192.168.0.1", 80), req);
+        Assert.assertEquals(StatusCode.CREATE, resp.statusCode());
+
+        Thread.sleep(100);
+        // 被正常通知
+        Assert.assertEquals(1, notifyCount.get());
     }
 
 }
