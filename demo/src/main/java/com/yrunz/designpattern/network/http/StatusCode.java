@@ -7,7 +7,8 @@ public enum StatusCode {
     BAD_REQUEST(400, "Bad Request"),
     NOT_FOUND(404, "Not Found"),
     METHOD_NOT_ALLOW(405, "Method Not Allow"),
-    TOO_MANY_REQUEST(429, "Too Many Request");
+    TOO_MANY_REQUEST(429, "Too Many Request"),
+    INTERNAL_SERVER_ERROR(500, "Internal Server Error");
 
     private final int val;
     private final String msg;

@@ -99,6 +99,13 @@ public class MemoryDb implements Db {
     }
 
     @Override
+    public void createTableIfNotExist(Table<?, ?> table) {
+        if (!tables.containsKey(table.name())) {
+            tables.put(table.name().toLowerCase(), table);
+        }
+    }
+
+    @Override
     public Transaction createTransaction(String transactionName) {
         return Transaction.of(this, transactionName);
     }

@@ -123,7 +123,7 @@ public class ServiceProfileTable implements Table<String, ServiceProfile> {
                     .withRegionId(regionId)
                     .withPriority(priority)
                     .withLoad(load)
-                    .Build();
+                    .build();
         }
     }
 

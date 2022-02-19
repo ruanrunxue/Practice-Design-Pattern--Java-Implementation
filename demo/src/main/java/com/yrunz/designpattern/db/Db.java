@@ -15,6 +15,7 @@ public interface Db {
     <Record> List<Record> accept(String tableName, TableVisitor<Record> visitor);
     void createTable(Table<?, ?> table);
     void deleteTable(String tableName);
+    void createTableIfNotExist(Table<?, ?> table);
     Transaction createTransaction(String transactionName);
     Result exec(String dslExpression);
 }

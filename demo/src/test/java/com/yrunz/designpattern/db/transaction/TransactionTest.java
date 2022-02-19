@@ -37,7 +37,7 @@ public class TransactionTest {
                 .withStatus(ServiceStatus.NORMAL)
                 .withPriority(1)
                 .withLoad(100)
-                .Build();
+                .build();
         Command profileInsert = InsertCommand.<String, ServiceProfile>of("profile-table")
                 .withPrimaryKey("0")
                 .withRecord(profile);
@@ -77,7 +77,7 @@ public class TransactionTest {
                 .withStatus(ServiceStatus.NORMAL)
                 .withPriority(1)
                 .withLoad(100)
-                .Build();
+                .build();
         Command profileUpdate = UpdateCommand.<String, ServiceProfile>of("profile-table")
                 .withPrimaryKey("0")
                 .withRecord(profile);

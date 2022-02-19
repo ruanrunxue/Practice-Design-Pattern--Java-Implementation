@@ -99,6 +99,11 @@ public class CacheDbProxy implements Db {
     }
 
     @Override
+    public void createTableIfNotExist(Table<?, ?> table) {
+            db.createTableIfNotExist(table);
+    }
+
+    @Override
     public Transaction createTransaction(String transactionName) {
         return db.createTransaction(transactionName);
     }

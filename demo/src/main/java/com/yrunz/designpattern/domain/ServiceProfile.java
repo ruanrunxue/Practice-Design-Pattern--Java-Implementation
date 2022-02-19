@@ -131,7 +131,7 @@ public class ServiceProfile implements Cloneable<ServiceProfile>, Comparable<Ser
         }
 
         // 建造者模式 关键点6：为Builder类定义Build方法，返回目标对象实例
-        public ServiceProfile Build() {
+        public ServiceProfile build() {
             return profile;
         }
     }
