@@ -34,7 +34,7 @@ public class ServiceProfile implements Cloneable<ServiceProfile>, Comparable<Ser
     }
 
     // 建造者模式 关键点8：目标对象定义Builder静态工厂方法，返回Builder实例，通过Builder实例进行对象的创建
-    public static Builder Builder(String serviceId) {
+    public static Builder builder(String serviceId) {
         return new Builder(serviceId);
     }
 

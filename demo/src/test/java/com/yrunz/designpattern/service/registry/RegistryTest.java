@@ -30,7 +30,7 @@ public class RegistryTest {
         registry.run();
 
         HttpClient client = HttpClient.of(new SocketImpl(), "192.168.0.2");
-        ServiceProfile profile = ServiceProfile.Builder("service1")
+        ServiceProfile profile = ServiceProfile.builder("service1")
                 .withEndpoint("192.168.0.2", 80)
                 .withRegion("0", "region-0", "CHINA")
                 .withPriority(1)
@@ -45,7 +45,7 @@ public class RegistryTest {
         HttpResp resp = client.sendReq(Endpoint.of("192.168.0.1", 80), req);
         Assert.assertEquals(StatusCode.CREATE, resp.statusCode());
 
-        ServiceProfile profile2 = ServiceProfile.Builder("service2")
+        ServiceProfile profile2 = ServiceProfile.builder("service2")
                 .withEndpoint("192.168.0.3", 80)
                 .withRegion("0", "region-0", "CHINA")
                 .withPriority(2)
@@ -70,7 +70,7 @@ public class RegistryTest {
         Assert.assertEquals("service1", serviceProfile.id());
         Assert.assertEquals(100, serviceProfile.load());
 
-        ServiceProfile profile3 = ServiceProfile.Builder("service1")
+        ServiceProfile profile3 = ServiceProfile.builder("service1")
                 .withEndpoint("192.168.0.2", 80)
                 .withRegion("0", "region-0", "CHINA")
                 .withPriority(1)
@@ -167,7 +167,7 @@ public class RegistryTest {
         Assert.assertEquals(StatusCode.CREATE, resp1.statusCode());
 
         // 模拟service2注册
-        ServiceProfile profile = ServiceProfile.Builder("service2")
+        ServiceProfile profile = ServiceProfile.builder("service2")
                 .withEndpoint("192.168.0.3", 80)
                 .withRegion("0", "region-0", "CHINA")
                 .withPriority(1)

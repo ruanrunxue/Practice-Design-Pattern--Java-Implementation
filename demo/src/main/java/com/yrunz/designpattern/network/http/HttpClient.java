@@ -80,6 +80,7 @@ public class HttpClient implements SocketListener {
             respStatus.setDone();
             respStatus.notify();
         }
+        waitResps.remove(resp.reqId());
     }
 
     // 用于辅助同步等待对端响应

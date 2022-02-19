@@ -116,7 +116,7 @@ public class ServiceProfileTable implements Table<String, ServiceProfile> {
         }
 
         public ServiceProfile toServiceProfile() {
-            return ServiceProfile.Builder(serviceId)
+            return ServiceProfile.builder(serviceId)
                     .withType(serviceType)
                     .withStatus(ServiceStatus.valueOf(serviceStatus))
                     .withEndpoint(ip, port)

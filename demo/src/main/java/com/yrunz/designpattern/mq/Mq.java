@@ -6,6 +6,8 @@ public interface Mq {
 
     void deleteTopic(String topic);
 
+    void clear();
+
     void produce(Message message);
 
     Message consume(String topic);

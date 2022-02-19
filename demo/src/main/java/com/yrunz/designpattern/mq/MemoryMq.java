@@ -42,6 +42,11 @@ public class MemoryMq implements Mq {
     }
 
     @Override
+    public void clear() {
+        queues.clear();
+    }
+
+    @Override
     public void produce(Message message) {
         if (!queues.containsKey(message.topic())) {
             throw new TopicNotFoundException(message.topic());

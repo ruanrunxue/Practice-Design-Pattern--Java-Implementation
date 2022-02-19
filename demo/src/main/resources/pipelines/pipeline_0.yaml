@@ -4,7 +4,7 @@ input:
   name: input_0
   type: memory_mq
   context:
-    topic: monitor_0
+    topic: access_log.topic
 filter:
   - name: filter_0
     type: log_to_json

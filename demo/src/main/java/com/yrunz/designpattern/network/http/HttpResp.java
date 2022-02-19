@@ -1,5 +1,7 @@
 package com.yrunz.designpattern.network.http;
 
+import com.yrunz.designpattern.service.mediator.ServiceDiscoveryFailedException;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -67,6 +69,10 @@ public class HttpResp {
 
     public String problemDetails() {
         return problemDetails;
+    }
+
+    public boolean isSuccess() {
+        return statusCode.value() / 100 == 2;
     }
 
 }

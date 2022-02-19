@@ -88,7 +88,7 @@ public class ServiceMediator implements Mediator, Service {
         HttpResp resp = client.sendReq(registryEndpoint, req);
         client.close();
         // 如果响应码不为2xx，表示服务发现失败
-        if (resp.statusCode().value() / 100 != 2) {
+        if (!resp.isSuccess()) {
             throw new ServiceDiscoveryFailedException(serviceType, resp.problemDetails());
         }
         ServiceProfile profile = (ServiceProfile) resp.body();

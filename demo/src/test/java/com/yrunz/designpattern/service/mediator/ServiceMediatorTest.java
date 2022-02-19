@@ -34,7 +34,7 @@ public class ServiceMediatorTest {
         mediator.run();
 
         HttpClient client = HttpClient.of(factory.create(), "192.168.0.3");
-        ServiceProfile profile = ServiceProfile.Builder("service1")
+        ServiceProfile profile = ServiceProfile.builder("service1")
                 .withEndpoint("192.168.0.3", 80)
                 .withRegion("0", "region-0", "CHINA")
                 .withPriority(1)

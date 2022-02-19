@@ -31,7 +31,7 @@ public class TransactionTest {
                 .withRecord(Region.of("0").withName("region0").withCountry("China"));
         transaction.exec(regionInsert);
 
-        ServiceProfile profile = ServiceProfile.Builder("0")
+        ServiceProfile profile = ServiceProfile.builder("0")
                 .withEndpoint("1.1.1.1", 80)
                 .withRegionId("0")
                 .withStatus(ServiceStatus.NORMAL)
@@ -71,7 +71,7 @@ public class TransactionTest {
                 .withRecord(Region.of("0").withName("region0").withCountry("China"));
         transaction.exec(regionInsert);
 
-        ServiceProfile profile = ServiceProfile.Builder("0")
+        ServiceProfile profile = ServiceProfile.builder("0")
                 .withEndpoint("1.1.1.1", 80)
                 .withRegionId("0")
                 .withStatus(ServiceStatus.NORMAL)
