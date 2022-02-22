@@ -1,6 +1,6 @@
 package com.yrunz.designpattern.service.mediator;
 
-import com.yrunz.designpattern.domain.ServiceProfile;
+import com.yrunz.designpattern.service.registry.entity.ServiceProfile;
 import com.yrunz.designpattern.network.Endpoint;
 import com.yrunz.designpattern.network.http.*;
 import com.yrunz.designpattern.service.Service;

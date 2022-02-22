@@ -1,4 +1,4 @@
-package com.yrunz.designpattern.db.schema;
+package com.yrunz.designpattern.db;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Target;

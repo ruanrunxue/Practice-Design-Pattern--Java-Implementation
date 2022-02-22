@@ -1,4 +1,4 @@
-package com.yrunz.designpattern.domain;
+package com.yrunz.designpattern.service.registry.entity;
 
 // Region值对象，每个服务都唯一属于一个Region
 public class Region implements Comparable<Region> {

@@ -1,8 +1,8 @@
 package com.yrunz.designpattern.service.shopping;
 
-import com.yrunz.designpattern.domain.Region;
-import com.yrunz.designpattern.domain.ServiceProfile;
-import com.yrunz.designpattern.domain.ServiceStatus;
+import com.yrunz.designpattern.service.registry.entity.Region;
+import com.yrunz.designpattern.service.registry.entity.ServiceProfile;
+import com.yrunz.designpattern.service.registry.entity.ServiceStatus;
 import com.yrunz.designpattern.network.Endpoint;
 import com.yrunz.designpattern.network.http.*;
 import com.yrunz.designpattern.service.Service;

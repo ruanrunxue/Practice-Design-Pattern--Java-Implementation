@@ -1,8 +1,9 @@
 package com.yrunz.designpattern.db.visitor;
 
 import com.yrunz.designpattern.db.MemoryDb;
-import com.yrunz.designpattern.db.schema.SubscriptionTable;
-import com.yrunz.designpattern.domain.Subscription;
+import com.yrunz.designpattern.service.registry.schema.SubscriptionTable;
+import com.yrunz.designpattern.service.registry.entity.Subscription;
+import com.yrunz.designpattern.service.registry.schema.SubscriptionVisitor;
 import org.junit.After;
 import org.junit.Test;
 

@@ -2,7 +2,7 @@ package com.yrunz.designpattern;
 
 import com.yrunz.designpattern.db.Db;
 import com.yrunz.designpattern.db.MemoryDb;
-import com.yrunz.designpattern.domain.Region;
+import com.yrunz.designpattern.service.registry.entity.Region;
 import com.yrunz.designpattern.monitor.MonitorSystem;
 import com.yrunz.designpattern.service.Service;
 import com.yrunz.designpattern.service.mediator.ServiceMediator;

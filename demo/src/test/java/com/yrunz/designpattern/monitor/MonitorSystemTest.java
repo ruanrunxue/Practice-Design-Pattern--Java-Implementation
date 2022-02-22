@@ -1,9 +1,8 @@
 package com.yrunz.designpattern.monitor;
 
 import com.yrunz.designpattern.db.MemoryDb;
-import com.yrunz.designpattern.db.schema.MonitorEventTable;
-import com.yrunz.designpattern.db.visitor.MonitorEventVisitor;
-import com.yrunz.designpattern.domain.MonitorEvent;
+import com.yrunz.designpattern.monitor.schema.MonitorEventVisitor;
+import com.yrunz.designpattern.monitor.entity.MonitorEvent;
 import com.yrunz.designpattern.mq.MemoryMq;
 import com.yrunz.designpattern.mq.Message;
 import org.junit.Test;

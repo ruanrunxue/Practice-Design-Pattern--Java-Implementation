@@ -1,9 +1,9 @@
-package com.yrunz.designpattern.db.visitor;
+package com.yrunz.designpattern.monitor.schema;
 
 import com.yrunz.designpattern.db.Table;
 import com.yrunz.designpattern.db.TableIterator;
 import com.yrunz.designpattern.db.TableVisitor;
-import com.yrunz.designpattern.domain.MonitorEvent;
+import com.yrunz.designpattern.monitor.entity.MonitorEvent;
 
 import java.time.Instant;
 import java.time.LocalDateTime;

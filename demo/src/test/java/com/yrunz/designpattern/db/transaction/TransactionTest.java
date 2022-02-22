@@ -2,11 +2,11 @@ package com.yrunz.designpattern.db.transaction;
 
 import com.yrunz.designpattern.db.MemoryDb;
 import com.yrunz.designpattern.db.dsl.Result;
-import com.yrunz.designpattern.db.schema.RegionTable;
-import com.yrunz.designpattern.db.schema.ServiceProfileTable;
-import com.yrunz.designpattern.domain.Region;
-import com.yrunz.designpattern.domain.ServiceProfile;
-import com.yrunz.designpattern.domain.ServiceStatus;
+import com.yrunz.designpattern.service.registry.schema.RegionTable;
+import com.yrunz.designpattern.service.registry.schema.ServiceProfileTable;
+import com.yrunz.designpattern.service.registry.entity.Region;
+import com.yrunz.designpattern.service.registry.entity.ServiceProfile;
+import com.yrunz.designpattern.service.registry.entity.ServiceStatus;
 import org.junit.After;
 import org.junit.Test;
 

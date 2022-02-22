@@ -1,4 +1,4 @@
-package com.yrunz.designpattern.domain;
+package com.yrunz.designpattern.monitor.entity;
 
 
 import java.util.concurrent.atomic.AtomicInteger;

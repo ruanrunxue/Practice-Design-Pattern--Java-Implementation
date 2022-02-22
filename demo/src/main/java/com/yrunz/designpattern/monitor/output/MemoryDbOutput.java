@@ -4,8 +4,8 @@ import com.yrunz.designpattern.db.Db;
 import com.yrunz.designpattern.db.MemoryDb;
 import com.yrunz.designpattern.db.cache.CacheDbProxy;
 import com.yrunz.designpattern.db.exception.TableAlreadyExistException;
-import com.yrunz.designpattern.db.schema.MonitorEventTable;
-import com.yrunz.designpattern.domain.MonitorEvent;
+import com.yrunz.designpattern.monitor.schema.MonitorEventTable;
+import com.yrunz.designpattern.monitor.entity.MonitorEvent;
 import com.yrunz.designpattern.monitor.config.Config;
 import com.yrunz.designpattern.monitor.plugin.Event;
 

@@ -2,9 +2,9 @@ package com.yrunz.designpattern.service.registry;
 
 import com.yrunz.designpattern.db.Db;
 import com.yrunz.designpattern.db.MemoryDb;
-import com.yrunz.designpattern.domain.ServiceProfile;
-import com.yrunz.designpattern.domain.ServiceStatus;
-import com.yrunz.designpattern.domain.Subscription;
+import com.yrunz.designpattern.service.registry.entity.ServiceProfile;
+import com.yrunz.designpattern.service.registry.entity.ServiceStatus;
+import com.yrunz.designpattern.service.registry.entity.Subscription;
 import com.yrunz.designpattern.network.Endpoint;
 import com.yrunz.designpattern.network.Network;
 import com.yrunz.designpattern.network.SocketImpl;

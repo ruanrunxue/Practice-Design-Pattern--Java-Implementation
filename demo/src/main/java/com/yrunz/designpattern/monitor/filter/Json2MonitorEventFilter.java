@@ -1,7 +1,7 @@
 package com.yrunz.designpattern.monitor.filter;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.yrunz.designpattern.domain.MonitorEvent;
+import com.yrunz.designpattern.monitor.entity.MonitorEvent;
 import com.yrunz.designpattern.monitor.plugin.Event;
 
 // 将ObjectNode转换成MonitorEvent

@@ -1,9 +1,9 @@
-package com.yrunz.designpattern.db.visitor;
+package com.yrunz.designpattern.service.registry.schema;
 
 import com.yrunz.designpattern.db.Table;
 import com.yrunz.designpattern.db.TableIterator;
 import com.yrunz.designpattern.db.TableVisitor;
-import com.yrunz.designpattern.domain.Subscription;
+import com.yrunz.designpattern.service.registry.entity.Subscription;
 
 import java.util.ArrayList;
 import java.util.List;
