@@ -1,6 +1,6 @@
 package com.yrunz.designpattern.monitor;
 
-import com.yrunz.designpattern.monitor.config.Config;
+import com.yrunz.designpattern.monitor.config.PipelineConfig;
 import com.yrunz.designpattern.monitor.config.yaml.YamlConfigFactory;
 import com.yrunz.designpattern.monitor.pipeline.PipelineFactory;
 import com.yrunz.designpattern.monitor.plugin.Plugin;
@@ -32,7 +32,7 @@ public class MonitorSystem {
             Files.list(configPath).forEach(file -> {
                 try {
                     String configStr = new String(Files.readAllBytes(file));
-                    Config config = YamlConfigFactory.newInstance().createPipelineConfig();
+                    PipelineConfig config = YamlConfigFactory.newInstance().createPipelineConfig();
                     config.load(configStr);
                     Plugin plugin = PipelineFactory.newInstance().create(config);
                     plugin.install();
