@@ -6,6 +6,7 @@ import com.yrunz.designpattern.mq.Message;
 import com.yrunz.designpattern.network.Socket;
 import com.yrunz.designpattern.network.SocketImpl;
 import com.yrunz.designpattern.network.http.*;
+import org.junit.After;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -13,10 +14,14 @@ import static org.junit.Assert.assertTrue;
 
 public class AccessLogSidecarTest {
 
+    @After
+    public void tearDown() {
+        MemoryMq.instance().clear();
+    }
+
     @Test
     public void testLogMonitorSidecar() {
-        MemoryMq.instance().createTopic("access_log.topic");
-        Socket socket = new AccessLogSidecar(new FlowCtrlSidecar(new SocketImpl()));
+        Socket socket = new AccessLogSidecar(new FlowCtrlSidecar(new SocketImpl()), MemoryMq.instance());
         HttpServer server = HttpServer.of(socket)
                 .get("/hello", req-> HttpResp.of(req.reqId()).addStatusCode(StatusCode.NO_CONTENT))
                 .listen("192.168.19.1", 80);
@@ -35,7 +40,6 @@ public class AccessLogSidecarTest {
 
         server.shutdown();
         client.close();
-        MemoryMq.instance().deleteTopic("access_log.topic");
     }
 
 }

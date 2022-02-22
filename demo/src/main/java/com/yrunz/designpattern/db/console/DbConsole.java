@@ -9,13 +9,15 @@ import java.util.Scanner;
 
 // 命令行人机交互，提供dsl执行功能
 public class DbConsole {
+
     private final Db db;
-    private DbConsole() {
-        db = CacheDbProxy.of(MemoryDb.instance());
+
+    private DbConsole(Db db) {
+        this.db = CacheDbProxy.of(db);
     }
 
-    public static DbConsole create() {
-        return new DbConsole();
+    public static DbConsole of(Db db) {
+        return new DbConsole(db);
     }
 
     public void start() {

@@ -4,7 +4,7 @@ import com.yrunz.designpattern.monitor.config.Config;
 import com.yrunz.designpattern.monitor.plugin.Event;
 import com.yrunz.designpattern.mq.MemoryMq;
 import com.yrunz.designpattern.mq.Message;
-import com.yrunz.designpattern.mq.TopicAlreadyExistException;
+import com.yrunz.designpattern.mq.MqConsumer;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -13,10 +13,11 @@ import java.util.Map;
 public class MemoryMqInput implements InputPlugin {
 
     private String topic;
+    private MqConsumer mqConsumer;
 
     @Override
     public Event input() {
-        Message message = MemoryMq.instance().consume(topic);
+        Message message = mqConsumer.consume(topic);
         Map<String, String> header = new HashMap<>();
         header.put("topic", topic);
         return Event.of(header, message.payload());
@@ -30,11 +31,7 @@ public class MemoryMqInput implements InputPlugin {
 
     @Override
     public void install() {
-        try {
-            MemoryMq.instance().createTopic(topic);
-        } catch (TopicAlreadyExistException e) {
-            // 如果已经创建过，则不再创建
-        }
+        mqConsumer = MemoryMq.instance();
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.yrunz.designpattern;
 
 import com.yrunz.designpattern.db.Db;
 import com.yrunz.designpattern.db.MemoryDb;
+import com.yrunz.designpattern.mq.MemoryMq;
 import com.yrunz.designpattern.service.registry.entity.Region;
 import com.yrunz.designpattern.monitor.MonitorSystem;
 import com.yrunz.designpattern.service.Service;
@@ -15,7 +16,7 @@ public class Example {
 
     public static void main(String[] args) {
         Db db = MemoryDb.instance();
-        SidecarFactory sidecarFactory = FullFunctionSidecarFactory.newInstance();
+        SidecarFactory sidecarFactory = FullFunctionSidecarFactory.newInstance().withMqProducer(MemoryMq.instance());
         Region region = Region.of("region-0").withName("Guangdong").withCountry("CHINA");
 
         // 启动监控系统

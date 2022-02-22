@@ -1,24 +1,20 @@
 package com.yrunz.designpattern.sidecar;
 
-import com.yrunz.designpattern.network.Endpoint;
-import com.yrunz.designpattern.mq.MemoryMq;
 import com.yrunz.designpattern.mq.Message;
-import com.yrunz.designpattern.network.Network;
-import com.yrunz.designpattern.network.Packet;
-import com.yrunz.designpattern.network.Socket;
-import com.yrunz.designpattern.network.SocketListener;
+import com.yrunz.designpattern.mq.MqProducer;
+import com.yrunz.designpattern.network.*;
 import com.yrunz.designpattern.network.http.HttpReq;
 import com.yrunz.designpattern.network.http.HttpResp;
 
 // HTTP access log修饰器，拦截socket接收和发送报文，上报access log到MemoryMq上，供监控系统统计分析
 public class AccessLogSidecar implements Socket {
     private final Socket socket;
-    private final MemoryMq memoryMq;
+    private final MqProducer mqProducer;
     private final String topic;
 
-    public AccessLogSidecar(Socket socket) {
+    public AccessLogSidecar(Socket socket, MqProducer mqProducer) {
         this.socket = socket;
-        this.memoryMq = MemoryMq.instance();
+        this.mqProducer = mqProducer;
         this.topic = "access_log.topic";
     }
 
@@ -38,13 +34,13 @@ public class AccessLogSidecar implements Socket {
             String log = String.format("[%s][SEND_REQ]send http request to %s",
                     packet.src(), packet.dest());
             Message message = Message.of(topic, log);
-            memoryMq.produce(message);
+            mqProducer.produce(message);
         }
         if ((packet.payload() instanceof HttpResp)) {
             String log = String.format("[%s][SEND_RESP]send http response to %s",
                     packet.src(), packet.dest());
             Message message = Message.of(topic, log);
-            memoryMq.produce(message);
+            mqProducer.produce(message);
         }
 
         socket.send(packet);
@@ -56,13 +52,13 @@ public class AccessLogSidecar implements Socket {
             String log = String.format("[%s][RECV_REQ]receive http request from %s",
                     packet.dest(), packet.src());
             Message message = Message.of(topic, log);
-            memoryMq.produce(message);
+            mqProducer.produce(message);
         }
         if ((packet.payload() instanceof HttpResp)) {
             String log = String.format("[%s][RECV_RESP]receive http response from %s",
                     packet.dest(), packet.src());
             Message message = Message.of(topic, log);
-            memoryMq.produce(message);
+            mqProducer.produce(message);
         }
 
         socket.receive(packet);
