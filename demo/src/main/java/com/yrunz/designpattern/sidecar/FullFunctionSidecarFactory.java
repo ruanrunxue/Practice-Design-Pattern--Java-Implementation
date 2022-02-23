@@ -22,7 +22,7 @@ public class FullFunctionSidecarFactory implements SidecarFactory {
 
     @Override
     public Socket create() {
-        return new AccessLogSidecar(new FlowCtrlSidecar(new SocketImpl()), mqProducer);
+        return AccessLogSidecar.wrap(FlowCtrlSidecar.wrap(new SocketImpl()), mqProducer);
     }
 
 }

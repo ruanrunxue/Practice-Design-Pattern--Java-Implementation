@@ -21,7 +21,7 @@ public class AccessLogSidecarTest {
 
     @Test
     public void testLogMonitorSidecar() {
-        Socket socket = new AccessLogSidecar(new FlowCtrlSidecar(new SocketImpl()), MemoryMq.instance());
+        Socket socket = AccessLogSidecar.wrap(FlowCtrlSidecar.wrap(new SocketImpl()), MemoryMq.instance());
         HttpServer server = HttpServer.of(socket)
                 .get("/hello", req-> HttpResp.of(req.reqId()).addStatusCode(StatusCode.NO_CONTENT))
                 .listen("192.168.19.1", 80);

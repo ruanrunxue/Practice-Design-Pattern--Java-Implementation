@@ -12,10 +12,14 @@ public class AccessLogSidecar implements Socket {
     private final MqProducer mqProducer;
     private final String topic;
 
-    public AccessLogSidecar(Socket socket, MqProducer mqProducer) {
+    private AccessLogSidecar(Socket socket, MqProducer mqProducer) {
         this.socket = socket;
         this.mqProducer = mqProducer;
         this.topic = "access_log.topic";
+    }
+
+    public static AccessLogSidecar wrap(Socket socket, MqProducer mqProducer) {
+        return new AccessLogSidecar(socket, mqProducer);
     }
 
     @Override

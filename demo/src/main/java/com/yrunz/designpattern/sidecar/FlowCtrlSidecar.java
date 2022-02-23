@@ -20,9 +20,13 @@ public class FlowCtrlSidecar implements Socket {
     // 流控上下文
     private final FcContext context;
 
-    public FlowCtrlSidecar(Socket socket) {
+    private FlowCtrlSidecar(Socket socket) {
         this.socket = socket;
         this.context = FcContext.create();
+    }
+
+    public static FlowCtrlSidecar wrap(Socket socket) {
+        return new FlowCtrlSidecar(socket);
     }
 
     @Override

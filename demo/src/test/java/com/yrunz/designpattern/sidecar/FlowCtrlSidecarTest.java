@@ -24,7 +24,7 @@ public class FlowCtrlSidecarTest {
         Mockito.when(FcContext.create()).thenReturn(mockContext);
         PowerMockito.when(mockContext.tryAccept()).thenReturn(false);
 
-        Socket socket = new FlowCtrlSidecar(new SocketImpl());
+        Socket socket = FlowCtrlSidecar.wrap(new SocketImpl());
         HttpServer server = HttpServer.of(socket)
                 .get("/hello", req-> HttpResp.of(req.reqId()).addStatusCode(StatusCode.NO_CONTENT))
                 .listen("192.168.19.1", 80);
