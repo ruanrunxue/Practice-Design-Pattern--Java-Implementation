@@ -21,7 +21,8 @@ import java.util.UUID;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-// 服务管理，包含服务注册、更新、去注册、订阅、去订阅、通知的功能
+// 服务管理，包含服务注册、更新、去注册。另外，服务订阅、去订阅、通知的功能由于与服务注册、更新、去注册紧密关联，
+// 比如，每次的服务通知都是发生在服务状态变更之后，因此也把它们归到服务管理模块。
 class SvcManagement {
     private final Db db;
     private final ExecutorService executor;
