@@ -4,7 +4,7 @@ import com.yrunz.designpattern.monitor.config.Config;
 import com.yrunz.designpattern.monitor.plugin.Event;
 import com.yrunz.designpattern.mq.MemoryMq;
 import com.yrunz.designpattern.mq.Message;
-import com.yrunz.designpattern.mq.MqConsumer;
+import com.yrunz.designpattern.mq.Consumable;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -13,11 +13,11 @@ import java.util.Map;
 public class MemoryMqInput implements InputPlugin {
 
     private String topic;
-    private MqConsumer mqConsumer;
+    private Consumable consumer;
 
     @Override
     public Event input() {
-        Message message = mqConsumer.consume(topic);
+        Message message = consumer.consume(topic);
         Map<String, String> header = new HashMap<>();
         header.put("topic", topic);
         return Event.of(header, message.payload());
@@ -31,7 +31,7 @@ public class MemoryMqInput implements InputPlugin {
 
     @Override
     public void install() {
-        mqConsumer = MemoryMq.instance();
+        consumer = MemoryMq.instance();
     }
 
     @Override
