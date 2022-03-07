@@ -38,7 +38,7 @@ public class HttpReq {
         return this;
     }
 
-    public HttpReq addQueryParam(Map<String, String> queryParams) {
+    public HttpReq addQueryParams(Map<String, String> queryParams) {
         this.queryParams.putAll(queryParams);
         return this;
     }

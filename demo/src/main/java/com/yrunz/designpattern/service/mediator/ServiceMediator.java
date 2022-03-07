@@ -47,7 +47,7 @@ public class ServiceMediator implements Mediator, Service {
                     .addUri(serviceUri)
                     .addMethod(req.method())
                     .addHeaders(req.headers())
-                    .addQueryParam(req.queryParams())
+                    .addQueryParams(req.queryParams())
                     .addBody(req.body());
             req.addUri(serviceUri);
             HttpResp forwardResp = client.sendReq(dest, forwardReq);
