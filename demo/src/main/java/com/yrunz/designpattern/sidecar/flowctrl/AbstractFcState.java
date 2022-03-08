@@ -16,12 +16,12 @@ public abstract class AbstractFcState implements FcState {
     @Override
     public boolean trySwitch() {
         long nowTimestamp = LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().getEpochSecond();
-        long interval = nowTimestamp - context.lastTimestamp.get();
+        long interval = nowTimestamp - context.lastUpdateTimestamp.get();
         if (interval < 1) {
             return false;
         }
-        context.lastTimestamp.set(nowTimestamp);
-        int tps = context.reqCount.getAndSet(0) / (int) interval;
+        context.lastUpdateTimestamp.set(nowTimestamp);
+        int tps = context.reqRate.getAndSet(0) / (int) interval;
         FcState nextState = context.factory.create(tps);
         if (isSameTo(nextState)) {
             return false;
