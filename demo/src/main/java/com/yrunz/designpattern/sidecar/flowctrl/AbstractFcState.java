@@ -21,7 +21,7 @@ public abstract class AbstractFcState implements FcState {
             return false;
         }
         context.lastUpdateTimestamp.set(nowTimestamp);
-        int tps = context.reqRate.getAndSet(0) / (int) interval;
+        int tps = context.reqCount.getAndSet(0) / (int) interval;
         FcState nextState = context.factory.create(tps);
         if (isSameTo(nextState)) {
             return false;

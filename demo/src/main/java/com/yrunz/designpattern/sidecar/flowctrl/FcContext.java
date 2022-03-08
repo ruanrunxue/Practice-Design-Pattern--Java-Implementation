@@ -7,15 +7,15 @@ import java.util.concurrent.atomic.AtomicLong;
 
 // 流控状态上下文，根据每秒处理请求速率进行流控
 public class FcContext {
-    // reqRate 请求速率 个/秒，切换状态后更新
-    final AtomicInteger reqRate;
+    // 当前处理的请求个数，切换状态后更新
+    final AtomicInteger reqCount;
     // 上一次更新的时间戳，每秒更新一次
     final AtomicLong lastUpdateTimestamp;
     FcState curState;
     FcStateFactory factory;
 
     private FcContext() {
-        this.reqRate = new AtomicInteger(0);
+        this.reqCount = new AtomicInteger(0);
         long nowTimestamp = LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().getEpochSecond();
         this.lastUpdateTimestamp = new AtomicLong(nowTimestamp);
         this.factory = new FcStateFactory();
@@ -34,7 +34,7 @@ public class FcContext {
 
     // 判断是否应该接收请求
     public boolean tryAccept() {
-        reqRate.incrementAndGet();
+        reqCount.incrementAndGet();
         curState.trySwitch();
         return curState.tryAccept();
     }
