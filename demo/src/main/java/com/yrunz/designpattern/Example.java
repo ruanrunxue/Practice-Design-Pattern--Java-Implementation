@@ -9,14 +9,14 @@ import com.yrunz.designpattern.service.Service;
 import com.yrunz.designpattern.service.mediator.ServiceMediator;
 import com.yrunz.designpattern.service.registry.Registry;
 import com.yrunz.designpattern.service.shopping.*;
-import com.yrunz.designpattern.sidecar.FullFunctionSidecarFactory;
+import com.yrunz.designpattern.sidecar.AllInOneSidecarFactory;
 import com.yrunz.designpattern.sidecar.SidecarFactory;
 
 public class Example {
 
     public static void main(String[] args) {
         Db db = MemoryDb.instance();
-        SidecarFactory sidecarFactory = FullFunctionSidecarFactory.newInstance().withMqProducer(MemoryMq.instance());
+        SidecarFactory sidecarFactory = AllInOneSidecarFactory.newInstance().withMqProducer(MemoryMq.instance());
         Region region = Region.of("region-0").withName("Guangdong").withCountry("CHINA");
 
         // 启动监控系统

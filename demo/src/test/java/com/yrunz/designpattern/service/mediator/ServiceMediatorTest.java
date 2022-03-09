@@ -7,7 +7,7 @@ import com.yrunz.designpattern.service.registry.entity.ServiceStatus;
 import com.yrunz.designpattern.network.Network;
 import com.yrunz.designpattern.network.http.*;
 import com.yrunz.designpattern.service.registry.Registry;
-import com.yrunz.designpattern.sidecar.PureSocketSidecarFactory;
+import com.yrunz.designpattern.sidecar.RawSocketSidecarFactory;
 import com.yrunz.designpattern.sidecar.SidecarFactory;
 import org.junit.After;
 import org.junit.Assert;
@@ -25,7 +25,7 @@ public class ServiceMediatorTest {
 
     @Test
     public void testForward() {
-        SidecarFactory factory = PureSocketSidecarFactory.newInstance();
+        SidecarFactory factory = RawSocketSidecarFactory.newInstance();
         Db db = MemoryDb.instance();
         Registry registry = Registry.of("192.168.0.1", factory, db);
         registry.run();

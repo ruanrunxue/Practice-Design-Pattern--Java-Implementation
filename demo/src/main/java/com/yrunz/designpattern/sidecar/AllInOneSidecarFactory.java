@@ -5,17 +5,17 @@ import com.yrunz.designpattern.network.Socket;
 import com.yrunz.designpattern.network.SocketImpl;
 
 // 具备所有功能的sidecar工厂
-public class FullFunctionSidecarFactory implements SidecarFactory {
+public class AllInOneSidecarFactory implements SidecarFactory {
 
     private Producible producer;
 
-    private FullFunctionSidecarFactory() {}
+    private AllInOneSidecarFactory() {}
 
-    public static FullFunctionSidecarFactory newInstance() {
-        return new FullFunctionSidecarFactory();
+    public static AllInOneSidecarFactory newInstance() {
+        return new AllInOneSidecarFactory();
     }
 
-    public FullFunctionSidecarFactory withMqProducer(Producible producible) {
+    public AllInOneSidecarFactory withMqProducer(Producible producible) {
         this.producer = producible;
         return this;
     }

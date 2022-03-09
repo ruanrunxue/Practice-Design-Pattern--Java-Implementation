@@ -9,7 +9,7 @@ import com.yrunz.designpattern.network.Endpoint;
 import com.yrunz.designpattern.network.Network;
 import com.yrunz.designpattern.network.SocketImpl;
 import com.yrunz.designpattern.network.http.*;
-import com.yrunz.designpattern.sidecar.PureSocketSidecarFactory;
+import com.yrunz.designpattern.sidecar.RawSocketSidecarFactory;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
@@ -26,7 +26,7 @@ public class RegistryTest {
     @Test
     public void testRegister() {
         Db db = MemoryDb.instance();
-        Registry registry = Registry.of("192.168.0.1", PureSocketSidecarFactory.newInstance(), db);
+        Registry registry = Registry.of("192.168.0.1", RawSocketSidecarFactory.newInstance(), db);
         registry.run();
 
         HttpClient client = HttpClient.of(new SocketImpl(), "192.168.0.2");
@@ -112,7 +112,7 @@ public class RegistryTest {
     @Test
     public void testSubscribe() {
         Db db = MemoryDb.instance();
-        Registry registry = Registry.of("192.168.0.1", PureSocketSidecarFactory.newInstance(), db);
+        Registry registry = Registry.of("192.168.0.1", RawSocketSidecarFactory.newInstance(), db);
         registry.run();
 
         HttpClient client = HttpClient.of(new SocketImpl(), "192.168.0.2");
@@ -140,7 +140,7 @@ public class RegistryTest {
     @Test
     public void testNotify() throws InterruptedException {
         // 启动注册中心
-        Registry registry = Registry.of("192.168.0.1", PureSocketSidecarFactory.newInstance(), MemoryDb.instance());
+        Registry registry = Registry.of("192.168.0.1", RawSocketSidecarFactory.newInstance(), MemoryDb.instance());
         registry.run();
 
         // 起通知监听服务器

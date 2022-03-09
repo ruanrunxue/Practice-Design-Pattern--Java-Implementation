@@ -10,7 +10,7 @@ import com.yrunz.designpattern.network.http.*;
 import com.yrunz.designpattern.service.Service;
 import com.yrunz.designpattern.service.mediator.ServiceMediator;
 import com.yrunz.designpattern.service.registry.Registry;
-import com.yrunz.designpattern.sidecar.PureSocketSidecarFactory;
+import com.yrunz.designpattern.sidecar.RawSocketSidecarFactory;
 import com.yrunz.designpattern.sidecar.SidecarFactory;
 import org.junit.After;
 import org.junit.Test;
@@ -29,7 +29,7 @@ public class ShoppingCenterTest {
     @Test
     public void testShoppingCenter() {
         Db db = MemoryDb.instance();
-        SidecarFactory sidecarFactory = PureSocketSidecarFactory.newInstance();
+        SidecarFactory sidecarFactory = RawSocketSidecarFactory.newInstance();
         Region region = Region.of("region-0").withName("Guangdong").withCountry("CHINA");
         Registry registry = Registry.of("192.168.0.1", sidecarFactory, db);
         registry.run();
