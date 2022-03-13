@@ -4,11 +4,11 @@
 
 | 归类       |                 模式                  |                           示例代码                           |                             文章                             |
 | ---------- | :-----------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: |
-| SOLID原则  |          单一职责原则（SRP）          | [Registry](demo/src/main/java/com/yrunz/designpattern/service/registry/Registry.java) | [实践GoF的23种设计模式: SOLID原则](docs/practice_design_pattern__solid_principle.md) |
-|            |            开闭原则（OCP）            | [Pipeline](demo/src/main/java/com/yrunz/designpattern/monitor/pipeline/Pipeline.java) | [实践GoF的23种设计模式: SOLID原则](docs/practice_design_pattern__solid_principle.md) |
-|            |          里氏替换原则（LSP）          | [PipelineFactory](demo/src/main/java/com/yrunz/designpattern/monitor/pipeline/PipelineFactory.java) | [实践GoF的23种设计模式: SOLID原则](docs/practice_design_pattern__solid_principle.md) |
-|            |          接口隔离原则（ISP）          | [Mq](demo/src/main/java/com/yrunz/designpattern/mq/MemoryMq.java) | [实践GoF的23种设计模式: SOLID原则](docs/practice_design_pattern__solid_principle.md) |
-|            |          依赖倒置原则（DIP）          | [Db](demo/src/main/java/com/yrunz/designpattern/db/Db.java)  | [实践GoF的23种设计模式: SOLID原则](docs/practice_design_pattern__solid_principle.md) |
+| SOLID原则  |          单一职责原则（SRP）          | [Registry](demo/src/main/java/com/yrunz/designpattern/service/registry/Registry.java) | [【Java实现】实践GoF的23种设计模式: SOLID原则](docs/practice_design_pattern__solid_principle.md) |
+|            |            开闭原则（OCP）            | [Pipeline](demo/src/main/java/com/yrunz/designpattern/monitor/pipeline/Pipeline.java) | [【Java实现】实践GoF的23种设计模式: SOLID原则](docs/practice_design_pattern__solid_principle.md) |
+|            |          里氏替换原则（LSP）          | [PipelineFactory](demo/src/main/java/com/yrunz/designpattern/monitor/pipeline/PipelineFactory.java) | [【Java实现】实践GoF的23种设计模式: SOLID原则](docs/practice_design_pattern__solid_principle.md) |
+|            |          接口隔离原则（ISP）          | [Mq](demo/src/main/java/com/yrunz/designpattern/mq/MemoryMq.java) | [【Java实现】实践GoF的23种设计模式: SOLID原则](docs/practice_design_pattern__solid_principle.md) |
+|            |          依赖倒置原则（DIP）          | [Db](demo/src/main/java/com/yrunz/designpattern/db/Db.java)  | [【Java实现】实践GoF的23种设计模式: SOLID原则](docs/practice_design_pattern__solid_principle.md) |
 | 创建型模式 |         单例模式（Singleton）         | [Network](demo/src/main/java/com/yrunz/designpattern/network/Network.java) |                                                              |
 |            |         建造者模式（Builder）         | [ServiceProfile.Builder](demo/src/main/java/com/yrunz/designpattern/service/registry/model/ServiceProfile.java) |                                                              |
 |            |    工厂方法模式（Factory Method）     | [SidecarFactory](demo/src/main/java/com/yrunz/designpattern/sidecar/SidecarFactory.java) |                                                              |
