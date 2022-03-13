@@ -1,4 +1,4 @@
-package com.yrunz.designpattern.service.registry.schema;
+package com.yrunz.designpattern.service.registry.model.schema;
 
 import com.yrunz.designpattern.db.Table;
 import com.yrunz.designpattern.db.TableIterator;
@@ -7,8 +7,8 @@ import com.yrunz.designpattern.db.exception.RecordAlreadyExistException;
 import com.yrunz.designpattern.db.exception.RecordNotFoundException;
 import com.yrunz.designpattern.db.iterator.SortedIterator;
 import com.yrunz.designpattern.db.PrimaryKey;
-import com.yrunz.designpattern.service.registry.entity.ServiceProfile;
-import com.yrunz.designpattern.service.registry.entity.ServiceStatus;
+import com.yrunz.designpattern.service.registry.model.ServiceProfile;
+import com.yrunz.designpattern.service.registry.model.ServiceStatus;
 
 import java.util.HashMap;
 import java.util.List;

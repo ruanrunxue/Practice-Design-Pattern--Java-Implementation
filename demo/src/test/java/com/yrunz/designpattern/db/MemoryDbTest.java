@@ -1,10 +1,10 @@
 package com.yrunz.designpattern.db;
 
 import com.yrunz.designpattern.db.dsl.Result;
-import com.yrunz.designpattern.service.registry.schema.RegionTable;
-import com.yrunz.designpattern.service.registry.schema.SubscriptionTable;
-import com.yrunz.designpattern.service.registry.entity.Region;
-import com.yrunz.designpattern.service.registry.entity.Subscription;
+import com.yrunz.designpattern.service.registry.model.schema.RegionTable;
+import com.yrunz.designpattern.service.registry.model.schema.SubscriptionTable;
+import com.yrunz.designpattern.service.registry.model.Region;
+import com.yrunz.designpattern.service.registry.model.Subscription;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;

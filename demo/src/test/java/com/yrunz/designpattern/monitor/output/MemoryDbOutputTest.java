@@ -1,7 +1,7 @@
 package com.yrunz.designpattern.monitor.output;
 
 import com.yrunz.designpattern.db.MemoryDb;
-import com.yrunz.designpattern.monitor.entity.MonitorEvent;
+import com.yrunz.designpattern.monitor.model.MonitorEvent;
 import com.yrunz.designpattern.monitor.config.json.JsonOutputConfig;
 import com.yrunz.designpattern.monitor.plugin.Event;
 import org.junit.After;

@@ -1,4 +1,4 @@
-package com.yrunz.designpattern.service.registry.entity;
+package com.yrunz.designpattern.service.registry.model;
 
 // 服务状态定义
 public enum ServiceStatus {

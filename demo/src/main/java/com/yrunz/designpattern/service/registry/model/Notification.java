@@ -1,4 +1,4 @@
-package com.yrunz.designpattern.service.registry.entity;
+package com.yrunz.designpattern.service.registry.model;
 
 public class Notification {
     private final String subscriptionId;

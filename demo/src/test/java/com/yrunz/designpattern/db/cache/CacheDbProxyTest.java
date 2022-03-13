@@ -1,8 +1,8 @@
 package com.yrunz.designpattern.db.cache;
 
 import com.yrunz.designpattern.db.MemoryDb;
-import com.yrunz.designpattern.service.registry.schema.RegionTable;
-import com.yrunz.designpattern.service.registry.entity.Region;
+import com.yrunz.designpattern.service.registry.model.schema.RegionTable;
+import com.yrunz.designpattern.service.registry.model.Region;
 import org.junit.After;
 import org.junit.Test;
 

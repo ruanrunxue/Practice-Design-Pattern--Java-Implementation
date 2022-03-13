@@ -1,6 +1,6 @@
 package com.yrunz.designpattern.monitor.filter;
 
-import com.yrunz.designpattern.monitor.entity.MonitorEvent;
+import com.yrunz.designpattern.monitor.model.MonitorEvent;
 import com.yrunz.designpattern.monitor.config.json.JsonFilterConfig;
 import com.yrunz.designpattern.monitor.plugin.Event;
 import org.junit.Test;

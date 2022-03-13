@@ -1,4 +1,4 @@
-package com.yrunz.designpattern.monitor.schema;
+package com.yrunz.designpattern.monitor.model.schema;
 
 import com.yrunz.designpattern.db.Table;
 import com.yrunz.designpattern.db.TableIterator;
@@ -8,7 +8,7 @@ import com.yrunz.designpattern.db.exception.RecordNotFoundException;
 import com.yrunz.designpattern.db.exception.UpdateOperationNotSupportException;
 import com.yrunz.designpattern.db.iterator.RandomIterator;
 import com.yrunz.designpattern.db.PrimaryKey;
-import com.yrunz.designpattern.monitor.entity.MonitorEvent;
+import com.yrunz.designpattern.monitor.model.MonitorEvent;
 
 import java.util.HashMap;
 import java.util.List;

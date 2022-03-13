@@ -1,7 +1,6 @@
 package com.yrunz.designpattern.db.console;
 
 import com.yrunz.designpattern.db.Db;
-import com.yrunz.designpattern.db.MemoryDb;
 import com.yrunz.designpattern.db.cache.CacheDbProxy;
 import com.yrunz.designpattern.db.dsl.Result;
 

@@ -1,4 +1,4 @@
-package com.yrunz.designpattern.monitor.entity;
+package com.yrunz.designpattern.monitor.model;
 
 
 import java.util.concurrent.atomic.AtomicInteger;

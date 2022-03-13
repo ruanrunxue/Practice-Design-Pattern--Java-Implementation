@@ -4,8 +4,8 @@ import com.yrunz.designpattern.db.Db;
 import com.yrunz.designpattern.network.http.HttpReq;
 import com.yrunz.designpattern.network.http.HttpResp;
 import com.yrunz.designpattern.network.http.StatusCode;
-import com.yrunz.designpattern.service.registry.entity.ServiceProfile;
-import com.yrunz.designpattern.service.registry.schema.ServiceProfileVisitor;
+import com.yrunz.designpattern.service.registry.model.ServiceProfile;
+import com.yrunz.designpattern.service.registry.model.schema.ServiceProfileVisitor;
 
 import java.util.List;
 

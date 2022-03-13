@@ -8,11 +8,11 @@ import com.yrunz.designpattern.db.transaction.InsertCommand;
 import com.yrunz.designpattern.db.transaction.Transaction;
 import com.yrunz.designpattern.db.transaction.UpdateCommand;
 import com.yrunz.designpattern.network.http.*;
-import com.yrunz.designpattern.service.registry.entity.Notification;
-import com.yrunz.designpattern.service.registry.entity.Region;
-import com.yrunz.designpattern.service.registry.entity.ServiceProfile;
-import com.yrunz.designpattern.service.registry.entity.Subscription;
-import com.yrunz.designpattern.service.registry.schema.SubscriptionVisitor;
+import com.yrunz.designpattern.service.registry.model.Notification;
+import com.yrunz.designpattern.service.registry.model.Region;
+import com.yrunz.designpattern.service.registry.model.ServiceProfile;
+import com.yrunz.designpattern.service.registry.model.Subscription;
+import com.yrunz.designpattern.service.registry.model.schema.SubscriptionVisitor;
 import com.yrunz.designpattern.sidecar.SidecarFactory;
 
 import java.util.List;

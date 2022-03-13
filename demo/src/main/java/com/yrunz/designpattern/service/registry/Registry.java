@@ -2,31 +2,13 @@ package com.yrunz.designpattern.service.registry;
 
 import com.yrunz.designpattern.db.Db;
 import com.yrunz.designpattern.db.cache.CacheDbProxy;
-import com.yrunz.designpattern.db.exception.RecordAlreadyExistException;
-import com.yrunz.designpattern.db.exception.RecordNotFoundException;
-import com.yrunz.designpattern.service.registry.schema.RegionTable;
-import com.yrunz.designpattern.service.registry.schema.ServiceProfileTable;
-import com.yrunz.designpattern.service.registry.schema.SubscriptionTable;
-import com.yrunz.designpattern.db.transaction.Command;
-import com.yrunz.designpattern.db.transaction.InsertCommand;
-import com.yrunz.designpattern.db.transaction.Transaction;
-import com.yrunz.designpattern.db.transaction.UpdateCommand;
-import com.yrunz.designpattern.service.registry.schema.ServiceProfileVisitor;
-import com.yrunz.designpattern.service.registry.schema.SubscriptionVisitor;
-import com.yrunz.designpattern.service.registry.entity.Notification;
-import com.yrunz.designpattern.service.registry.entity.Region;
-import com.yrunz.designpattern.service.registry.entity.ServiceProfile;
-import com.yrunz.designpattern.service.registry.entity.Subscription;
+import com.yrunz.designpattern.service.registry.model.schema.RegionTable;
+import com.yrunz.designpattern.service.registry.model.schema.ServiceProfileTable;
+import com.yrunz.designpattern.service.registry.model.schema.SubscriptionTable;
 import com.yrunz.designpattern.network.Endpoint;
 import com.yrunz.designpattern.network.http.*;
 import com.yrunz.designpattern.service.Service;
 import com.yrunz.designpattern.sidecar.SidecarFactory;
-
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 // 服务注册中心
 public class Registry implements Service {

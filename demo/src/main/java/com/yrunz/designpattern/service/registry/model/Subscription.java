@@ -1,4 +1,4 @@
-package com.yrunz.designpattern.service.registry.entity;
+package com.yrunz.designpattern.service.registry.model;
 
 import com.yrunz.designpattern.network.Endpoint;
 

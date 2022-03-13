@@ -1,4 +1,4 @@
-package com.yrunz.designpattern.service.registry.entity;
+package com.yrunz.designpattern.service.registry.model;
 
 /**
  * 原型模式
