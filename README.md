@@ -21,7 +21,7 @@
 |            |          外观模式（Facade）           | [ShoppingCenter](demo/src/main/java/com/yrunz/designpattern/service/shopping/ShoppingCenter.java) |                                                              |
 |            |         享元模式（Flyweight）         | [RegionTable](demo/src/main/java/com/yrunz/designpattern/service/registry/model/schema/RegionTable.java) |                                                              |
 |            |           代理模式（Proxy）           | [CacheDbProxy](demo/src/main/java/com/yrunz/designpattern/db/cache/CacheDbProxy.java) |                                                              |
-| 行为模式   | 责任链模式（Chain Of Responsibility） | [FilterChain](demo/src/main/java/com/yrunz/designpattern/monitor/filter/FilterChain.java) |                                                              |
+| 行为型模式 | 责任链模式（Chain Of Responsibility） | [FilterChain](demo/src/main/java/com/yrunz/designpattern/monitor/filter/FilterChain.java) |                                                              |
 |            |          命令模式（Command）          | [Command](demo/src/main/java/com/yrunz/designpattern/db/transaction/Command.java) |                                                              |
 |            |        迭代器模式（Iterator）         | [TableIterator](demo/src/main/java/com/yrunz/designpattern/db/TableIterator.java) |                                                              |
 |            |        中介者模式（Mediator）         | [Mediator](demo/src/main/java/com/yrunz/designpattern/service/mediator/Mediator.java) |                                                              |
