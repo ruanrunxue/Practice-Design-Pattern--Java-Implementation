@@ -37,7 +37,7 @@ public class Transaction {
 
     // 提交事务，执行队列中的命令，如果有命令失败，则回滚后再抛出异常
     public void commit() {
-        ExecHistory history = ExecHistory.create();
+        CmdHistory history = CmdHistory.create();
         try {
             for (Command cmd : cmds) {
                 cmd.exec();

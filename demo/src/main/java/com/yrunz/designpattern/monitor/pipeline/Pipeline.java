@@ -15,8 +15,12 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * Pipeline将输入、过滤、输出三个独立变化点，分离到三个接口InputPlugin、FilterPlugin、OutputPlugin上，符合OCP
  */
 
-/**
+/*
  * 桥接模式
+ */
+
+/*
+ * 组合模式
  */
 
 // pipeline由input、filter、output三种插件组成，定义了一个数据处理流程

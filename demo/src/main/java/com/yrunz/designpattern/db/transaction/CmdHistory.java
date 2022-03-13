@@ -7,15 +7,15 @@ import java.util.List;
  * 备忘录模式
  */
 
-public class ExecHistory {
+public class CmdHistory {
     private final List<Command> history;
 
-    private ExecHistory() {
+    private CmdHistory() {
         history = new ArrayList<>();
     }
 
-    public static ExecHistory create() {
-        return new ExecHistory();
+    public static CmdHistory create() {
+        return new CmdHistory();
     }
 
     public void add(Command cmd) {

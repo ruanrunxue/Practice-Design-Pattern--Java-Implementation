@@ -3,10 +3,6 @@ package com.yrunz.designpattern.monitor.config;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * 组合模式
- */
-
 public interface Config {
     // 从json字符串中加载配置
     void load(String conf);
